@@ -1,0 +1,15 @@
+.blog {
+    flex: 3;
+    border-left: 1px solid rgba(0,0,0,0.15);
+    border-right: 1px solid rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    flex-direction: column;
+    overflow: scroll;
+    padding-left: 50px;
+    padding-right: 50px;
+    hyphens: auto; 
+	text-align: justify
+}

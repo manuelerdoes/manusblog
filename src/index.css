@@ -3,5 +3,37 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif; 
+}
+
+body {
+  background-image: url('./night_sky.jpeg');
+  background-size: contain;
+  background-repeat:repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 0px;
+}
+
+.container {
+  width: 90vw;
+  height: 80vh;
+  background-color: rgba(250, 234, 214, 0.85);
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.35);
+  display: flex;
+}
+
+.header {
+  width: 90vw;
+  height: 10vh;
+  background-color:rgba(8, 51, 82, 0.85);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(201, 200, 200, 0.65);
+  display: flex;
+  color: rgb(212, 207, 187);
+  padding: 20px;
 }

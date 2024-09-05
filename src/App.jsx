@@ -8,13 +8,17 @@ import { useState, useEffect } from "react"
 import { getStyleScheme } from "./styles";
 import Login from "./components/login/Login"
 import Usermanager from "./components/usermanager/Usermanager"
+import About from "./components/about/About"
 
 const App = () => {
 
   const [topic, setTopic] = useState("other");
   const styleScheme = getStyleScheme(topic);
   const [showUserstuff, setShowUserstuff] = useState(false);
-  const user = null
+  const [showAbout, setShowAbout] = useState(false);
+  const user = {
+    name:"Oergel"
+  }
 
   useEffect(() => {
     // Update the body background image and other styles
@@ -29,6 +33,7 @@ const App = () => {
     };
   }, [styleScheme]);
 
+
   return (
     <>
       <div className='header'
@@ -38,9 +43,9 @@ const App = () => {
           borderColor: styleScheme.headerBorderColor
         }}
       >
-        <Menu />
+        <Menu showAbout={showAbout} setShowAbout={setShowAbout} />
         <Title />
-        <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
+        <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} user={user} />
       </div>
       <div className='container'
         style={{
@@ -49,18 +54,24 @@ const App = () => {
           borderColor: styleScheme.containerBorderColor
         }}
       >
-        {showUserstuff ? (
-          <>
-            {user ? <Usermanager /> : <Login />}
-          </>
-        ) : (
-          <>
-            <List />
-            <Blog />
-            <Details topic={topic} setTopic={setTopic} />
-          </>
-        )}
 
+
+        {
+          showAbout ? (
+            <About />
+          ) : (
+            showUserstuff ? (
+              <>
+                {user ? <Usermanager user={user}/> : <Login />}
+              </>
+            ) : (
+              <>
+                <List />
+                <Blog />
+                <Details topic={topic} setTopic={setTopic} />
+              </>
+            ))
+        }
 
       </div>
     </>

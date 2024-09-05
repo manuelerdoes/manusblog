@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./usermanager.css"
 
-function Usermanager() {
+function Usermanager({ user }) {
     const [avatar, setAvatar] = useState({
         file: null,
         url: ""
@@ -19,13 +19,17 @@ function Usermanager() {
     return (
         <div className='usermanager'>
             <div className="info">
-                <h2>Max Muster</h2>
+                <h2>{user.name}</h2>
                 <p>email: max@muster.ch</p>
-                <label htmlFor="file">
-                    <img src={avatar.url || "./avatar.png"} alt="" />
-                    Upload new avatar pic
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} onChange={handleAvatar} />
+                <div className="changeavatar">
+
+                    <label htmlFor="file">
+                        <img src={avatar.url || "./avatar.png"} alt="" />
+                        Upload new avatar pic
+                    </label>
+                    <input type="file" id="file" style={{ display: "none" }} onChange={handleAvatar} />
+                    <button>Save</button>
+                </div>
             </div>
             <div className="useraction">
                 <div className="changepassword">

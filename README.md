@@ -1,6 +1,5 @@
-# Lama Dev Chat App Starter template
+# Manus Blog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
+Simple Blog for myself. It changes colours and backgrounds according to the topic of the blog.
 
 npm run dev

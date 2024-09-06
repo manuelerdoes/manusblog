@@ -17,8 +17,9 @@ const App = () => {
   const [showUserstuff, setShowUserstuff] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const user = {
-    name:"Oergel"
+    name: "Oergel"
   }
+  // const user = null;
 
   useEffect(() => {
     // Update the body background image and other styles
@@ -47,6 +48,8 @@ const App = () => {
         <Title />
         <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} user={user} />
       </div>
+
+
       <div className='container'
         style={{
           backgroundColor: styleScheme.containerBGColor,
@@ -62,7 +65,7 @@ const App = () => {
           ) : (
             showUserstuff ? (
               <>
-                {user ? <Usermanager user={user}/> : <Login />}
+                {user ? <Usermanager user={user} /> : <Login />}
               </>
             ) : (
               <>

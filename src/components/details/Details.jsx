@@ -6,7 +6,7 @@ const Details = ({topic, setTopic}) => {
 
   useEffect(() => {
     // Simulate fetching the topic
-    const fetchedTopic = "ttuzfgzu"; // Assume this is fetched
+    const fetchedTopic = "computersdf"; // Assume this is fetched
 
     // Set the topic after fetching
     setTopic(fetchedTopic);

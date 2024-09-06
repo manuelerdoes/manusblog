@@ -7,7 +7,7 @@
     padding: 10px;
     gap: 10px;
     flex-direction: column;
-    overflow: scroll;
+    /* overflow: scroll; */
     padding-left: 50px;
     padding-right: 50px;
     hyphens: auto; 

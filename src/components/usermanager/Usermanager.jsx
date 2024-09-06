@@ -32,6 +32,10 @@ function Usermanager({ user }) {
                 </div>
             </div>
             <div className="useraction">
+                <div className="changeusername">
+                    <input type="text" placeholder='Username' name='username' />
+                    <button>Change Username</button>
+                </div>
                 <div className="changepassword">
                     <input type="password" placeholder='Password' name='password' />
                     <button>Change Password</button>

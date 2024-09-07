@@ -6,6 +6,8 @@ function Bloglist() {
   const searchInputRef = useRef(null);
   const [showTopicFilter, setShowTopicFilter] = useState(false);
   const [filterUsed, setFilterUsed] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   // Handle the keyboard shortcut
   useEffect(() => {
@@ -26,31 +28,30 @@ function Bloglist() {
     };
   }, []);
 
-  const handleSearchBarBlur = () => {
-    if (!filterUsed) {
-      setShowTopicFilter(false);
+  useEffect(() => {
+    if (searchActive) {
+      setShowTopicFilter(true);
+      return;
+    } else if (showTopicFilter && isMouseOver) {
+      return;
     }
-  }
+    setShowTopicFilter(false);
 
-  const handleTopicFilterBlur = () => {
-    setFilterUsed(false);
-    handleSearchBarBlur;
-  }
+  }, [isMouseOver, searchActive]);
+
 
   return (
-    <div className='bloglist'>
+    <div className='bloglist' onMouseOver={() => setIsMouseOver(true)} 
+    onMouseLeave={() => setIsMouseOver(false)}>
       <div className="search">
         <div className="searchbar">
           <img src="./search.png" alt="" />
           <input ref={searchInputRef} type="text" placeholder='Search: CMD/CTRL + K'
-            onFocus={() => setShowTopicFilter(true)}
-            onBlur={handleSearchBarBlur} />
+            onFocus={() => setSearchActive(true)} onBlur={() => setSearchActive(false)}/>
         </div>
       </div>
       {showTopicFilter && (
-        <div className="topicfilter" onMouseOver={() => setFilterUsed(true)} 
-          onClick={() => setFilterUsed(true)} onFocus={() => setFilterUsed(true)} 
-          onBlur={handleTopicFilterBlur} onMouseLeave={handleTopicFilterBlur}>
+        <div className="topicfilter">
           <h3>filter:</h3>
           <div className="topic phototopic"><span>📸 photography</span></div>
           <div className="topic musictopic"><span>🎵 music</span></div>

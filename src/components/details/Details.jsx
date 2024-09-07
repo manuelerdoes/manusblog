@@ -16,14 +16,18 @@ const Details = ({topic, setTopic}) => {
 
     <div className='details'>
       <div className="author">
-        <p>created by: Maneul</p>
+        <h3>created by</h3>
+        <p>Maneul</p>
       </div>
       <div className="timestamps">
-        <p>created on: 21.3.2024</p>
-        <p>last modified: 12.6.2024</p>
+        <h3>created on</h3>
+        <p>21.3.2024</p>
+        <h3>last modified</h3>
+        <p>12.6.2024</p>
       </div>
       <div className="{topic}">
-        <p>topic: {topic}</p>
+        <h3>topic</h3>
+        <p>{topic}</p>
       </div>
     </div>
   )

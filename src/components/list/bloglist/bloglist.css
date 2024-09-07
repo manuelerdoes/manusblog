@@ -23,6 +23,7 @@
                 outline: none;
                 color: white;
                 flex: 1;
+                padding-left: 5px;
             }
 
             img {
@@ -42,6 +43,65 @@
 
         p {
             display: inline;
+        }
+    }
+
+    .topicfilter {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        padding-top: 5px;
+        width: auto;
+
+
+        h3 {
+            font-size: x-small;
+        }
+        
+        span {
+            font-size: small;
+        }
+
+        .topic {
+            border-radius: 5px;
+            padding: 2px;
+            cursor: pointer;
+            margin: 1px;
+        }
+
+        .phototopic {
+            background-color: rgba(28, 28, 28, 0.531);
+            &:hover { background-color: rgba(28, 28, 28, 0.756); }
+        }
+
+        .musictopic {
+            background-color: rgba(60, 60, 215, 0.745);
+            &:hover { background-color: rgba(31, 31, 210, 0.854); }
+        }
+
+        .computertopic {
+            background-color: rgba(0, 255, 255, 0.544);
+            &:hover { background-color: rgba(1, 200, 200, 0.792); }
+        }
+
+        .foodtopic {
+            background-color: rgba(255, 0, 0, 0.401);
+            &:hover { background-color: rgba(189, 1, 1, 0.561); }
+        }
+
+        .roboticstopic {
+            background-color: silver;
+            &:hover { background-color: rgb(93, 92, 92); }
+        }
+
+        .traveltopic {
+            background-color: rgba(0, 128, 0, 0.584);
+            &:hover { background-color: rgba(0, 101, 0, 0.852); }
+        }
+
+        .othertopic {
+            background-color:rgba(210, 105, 30, 0.775);
+            &:hover { background-color:rgba(174, 79, 11, 0.866); }
         }
     }
 }

@@ -5,7 +5,6 @@ import { useEffect, useRef } from 'react';
 function Bloglist() {
   const searchInputRef = useRef(null);
   const [showTopicFilter, setShowTopicFilter] = useState(false);
-  const [filterUsed, setFilterUsed] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
 

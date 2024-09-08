@@ -16,10 +16,10 @@ const App = () => {
   const styleScheme = getStyleScheme(topic);
   const [showUserstuff, setShowUserstuff] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
-  const user = {
-    name: "Oergel"
-  }
-  // const user = null;
+  // const user = {
+  //   name: "Oergel"
+  // }
+  const user = null;
 
   useEffect(() => {
     // Update the body background image and other styles

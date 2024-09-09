@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import "./usermanager.css"
 import { useUserStore } from '../../lib/userStore';
-import { auth } from '../../lib/firebase';
+import { auth, db } from '../../lib/firebase';
+import { updateCurrentUser } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
+import upload from "../../lib/upload";
+
 
 function Usermanager() {
-    
-    const { currentUser } = useUserStore();
+
+    const { currentUser, fetchUserInfo } = useUserStore();
 
     const [avatar, setAvatar] = useState({
         file: null,
@@ -21,6 +25,23 @@ function Usermanager() {
         }
     };
 
+    const handleUpdateAvatar = async () => {
+        console.log("handleUpdateAvatar");
+        const imgUrl = await upload(avatar.file);
+
+        try {
+            // const res = await updateCurrentUser(auth, currentUser);
+            await updateDoc(doc(db, "users", currentUser.id), {
+                avatar: imgUrl,
+            });
+            fetchUserInfo();
+        } catch (error) {
+            console.log(error.message)
+        } finally {
+
+        }
+    }
+
     return (
         <div className='usermanager'>
             <div className="info">
@@ -29,11 +50,12 @@ function Usermanager() {
                 <div className="changeavatar">
 
                     <label htmlFor="file">
-                        <img src={!avatar.file ? currentUser.avatar || "./avatar.png" : avatar.url || "./avatar.png"} alt="" />
+                        <img src={!avatar.file ? currentUser.avatar || "./avatar.png"
+                            : avatar.url || "./avatar.png"} alt="" />
                         Upload new avatar pic
                     </label>
                     <input type="file" id="file" style={{ display: "none" }} onChange={handleAvatar} />
-                    <button>Save</button>
+                    <button onClick={handleUpdateAvatar}>Save</button>
                 </div>
             </div>
             <div className="useraction">

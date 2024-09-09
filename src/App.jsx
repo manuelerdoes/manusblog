@@ -9,6 +9,9 @@ import { getStyleScheme } from "./styles";
 import Login from "./components/login/Login"
 import Usermanager from "./components/usermanager/Usermanager"
 import About from "./components/about/About"
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "./lib/firebase"
+import { useUserStore } from "./lib/userStore"
 
 const App = () => {
 
@@ -19,7 +22,21 @@ const App = () => {
   // const user = {
   //   name: "Oergel"
   // }
-  const user = null;
+  // const user = null;
+
+  const { currentUser, isLoading, fetchUserInfo } = useUserStore()
+
+  useEffect(() => {
+    const unSub = onAuthStateChanged(auth, (user) => {
+      fetchUserInfo(user?.uid);
+    });
+
+    return () => {
+      unSub();
+    }
+  }, [fetchUserInfo]);
+
+  // console.log(currentUser);
 
   useEffect(() => {
     // Update the body background image and other styles
@@ -46,7 +63,7 @@ const App = () => {
       >
         <Menu showAbout={showAbout} setShowAbout={setShowAbout} />
         <Title />
-        <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} user={user} />
+        <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
       </div>
 
 
@@ -65,7 +82,7 @@ const App = () => {
           ) : (
             showUserstuff ? (
               <>
-                {user ? <Usermanager user={user} /> : <Login />}
+                {currentUser ? <Usermanager /> : <Login />}
               </>
             ) : (
               <>

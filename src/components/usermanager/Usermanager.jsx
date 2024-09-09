@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import "./usermanager.css"
+import { useUserStore } from '../../lib/userStore';
+import { auth } from '../../lib/firebase';
 
-function Usermanager({ user }) {
+function Usermanager() {
+    
+    const { currentUser } = useUserStore();
+
     const [avatar, setAvatar] = useState({
         file: null,
         url: ""
@@ -19,12 +24,12 @@ function Usermanager({ user }) {
     return (
         <div className='usermanager'>
             <div className="info">
-                <h2>{user.name}</h2>
+                <h2>{currentUser.username}</h2>
                 <p>email: max@muster.ch</p>
                 <div className="changeavatar">
 
                     <label htmlFor="file">
-                        <img src={avatar.url || "./avatar.png"} alt="" />
+                        <img src={!avatar.file ? currentUser.avatar || "./avatar.png" : avatar.url || "./avatar.png"} alt="" />
                         Upload new avatar pic
                     </label>
                     <input type="file" id="file" style={{ display: "none" }} onChange={handleAvatar} />
@@ -45,7 +50,7 @@ function Usermanager({ user }) {
                     <button>Change Email</button>
                 </div>
                 <div className="logout">
-                    <button>Logout</button>
+                    <button onClick={() => auth.signOut()}>Logout</button>
                 </div>
             </div>
         </div>

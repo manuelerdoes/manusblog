@@ -15,6 +15,7 @@ function Login() {
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [registerError, setRegisterError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loginError, setLoginError] = useState(false);
 
   const handleAvatar = (e) => {
     if (e.target.files[0]) {
@@ -27,11 +28,23 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+    setLoading(true);
+
+    const formData = new FormData(e.target)
+
+    const { email, password } = Object.fromEntries(formData);
+
     try {
-      
+
+      await signInWithEmailAndPassword(auth, email, password);
+
+      setLoginError(false);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
+      setErrorMessage(error.message);
+      setLoginError(true);
+    } finally {
+      setLoading(false);
     }
   }
 

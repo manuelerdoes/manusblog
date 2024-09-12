@@ -19,6 +19,7 @@ const App = () => {
   const styleScheme = getStyleScheme(topic);
   const [showUserstuff, setShowUserstuff] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [createMode, setCreateMode] = useState(false);
   // const user = {
   //   name: "Oergel"
   // }
@@ -62,9 +63,20 @@ const App = () => {
         }}
       >
         <Menu showAbout={showAbout} setShowAbout={setShowAbout} />
+        <button
+          style={{
+            color: styleScheme.headerTextColor,
+            borderColor: styleScheme.headerBorderColor
+          }}
+          onClick={() => setCreateMode(true)}>New Blog</button>
         <Title />
-        <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
-      </div>
+        <button
+          style={{
+            color: styleScheme.headerTextColor,
+            borderColor: styleScheme.headerBorderColor
+          }}>My Blogs</button>
+      <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
+    </div >
 
 
       <div className='container'
@@ -87,8 +99,8 @@ const App = () => {
             ) : (
               <>
                 <List />
-                <Blog />
-                <Details topic={topic} setTopic={setTopic} />
+                <Blog createMode={createMode} setCreateMode={setCreateMode}/>
+                <Details topic={topic} setTopic={setTopic} createMode={createMode}/>
               </>
             ))
         }

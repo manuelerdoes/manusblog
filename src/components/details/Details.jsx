@@ -2,34 +2,41 @@ import React from 'react'
 import "./details.css"
 import { useEffect } from 'react';
 
-const Details = ({topic, setTopic}) => {
+const Details = ({ topic, setTopic, createMode }) => {
 
   useEffect(() => {
     // Simulate fetching the topic
-    const fetchedTopic = "computersdf"; // Assume this is fetched
+    const fetchedTopic = "roboticssdf"; // Assume this is fetched
 
     // Set the topic after fetching
     setTopic(fetchedTopic);
   }, [setTopic]); // Dependency array ensures this runs only once when the component mounts
 
   return (
-
-    <div className='details'>
-      <div className="author">
-        <h3>created by</h3>
-        <p>Maneul</p>
+    
+    
+    !createMode ? (
+      <div className='details'>
+        <div className="author">
+          <h3>created by</h3>
+          <p>Maneul</p>
+        </div>
+        <div className="timestamps">
+          <h3>created on</h3>
+          <p>21.3.2024</p>
+          <h3>last modified</h3>
+          <p>12.6.2024</p>
+        </div>
+        <div className="{topic}">
+          <h3>topic</h3>
+          <p>{topic}</p>
+        </div>
       </div>
-      <div className="timestamps">
-        <h3>created on</h3>
-        <p>21.3.2024</p>
-        <h3>last modified</h3>
-        <p>12.6.2024</p>
+    ) : (
+      <div className="details">
+        <h3>new blog</h3>
       </div>
-      <div className="{topic}">
-        <h3>topic</h3>
-        <p>{topic}</p>
-      </div>
-    </div>
+    )
   )
 }
 

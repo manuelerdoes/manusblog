@@ -38,15 +38,24 @@ function Bloglist() {
 
   }, [isMouseOver, searchActive]);
 
+  const getAllBlogs = async () => {
+    const querySnapshot = await getDocs(collection(db, "userblogs"));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+
+    });
+  }
+
 
   return (
-    <div className='bloglist' onMouseOver={() => setIsMouseOver(true)} 
-    onMouseLeave={() => setIsMouseOver(false)}>
+    <div className='bloglist' onMouseOver={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}>
       <div className="search">
         <div className="searchbar">
           <img src="./search.png" alt="" />
           <input ref={searchInputRef} type="text" placeholder='Search: CMD/CTRL + K'
-            onFocus={() => setSearchActive(true)} onBlur={() => setSearchActive(false)}/>
+            onFocus={() => setSearchActive(true)} onBlur={() => setSearchActive(false)} />
         </div>
       </div>
       {showTopicFilter && (
@@ -63,22 +72,6 @@ function Bloglist() {
       )}
       <div className="item">
         <p>📸</p>
-        <p>Beispielblogtitel</p>
-      </div>
-      <div className="item">
-        <p>🍖</p>
-        <p>Beispielblogtitel</p>
-      </div>
-      <div className="item">
-        <p>💻</p>
-        <p>Beispielblogtitel</p>
-      </div>
-      <div className="item">
-        <p>🤖</p>
-        <p>Beispielblogtitel</p>
-      </div>
-      <div className="item">
-        <p>🥗</p>
         <p>Beispielblogtitel</p>
       </div>
 

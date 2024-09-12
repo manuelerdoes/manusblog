@@ -37,4 +37,17 @@ body {
   display: flex;
   color: rgb(212, 207, 187);
   padding: 20px;
+
+  button {
+    background-color: transparent;
+    border: 1px solid rgba(69, 69, 234, 0.751);
+    padding: 10px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(69, 69, 234, 0.751);
+    }
+  }
 }

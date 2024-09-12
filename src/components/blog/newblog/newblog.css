@@ -1,0 +1,91 @@
+.newblog {
+    flex: 3;
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+
+    .item {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        label {
+            display: flex;
+            flex: 1;
+        }
+        input {
+            flex: 3;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            background-color: rgba(255, 255, 224, 0.456);
+            border: 2px solid; /* Make sure to define border style */
+            border-color: grey darkgrey darkgrey grey;
+            font-size:small
+        }
+
+        select {
+            flex: 3;
+            padding: 10px;
+            font-size: large;
+            background-color: rgba(255, 255, 224, 0.456);
+            border: 2px solid;
+            border-color:  grey darkgrey darkgrey grey;
+        }
+    }
+
+    .setcontent {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 400px;
+        textarea {
+            height: 100%;
+            resize: none;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            background-color: rgba(255, 255, 224, 0.456);
+            border: 2px solid; /* Make sure to define border style */
+            border-color: grey darkgrey darkgrey grey;
+            font-size: small;
+        }
+    }
+
+    .settitle {
+
+    }
+
+    .settopic {
+        display: flex;
+    }
+
+
+    .newblogbuttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+
+        button {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid;
+            border-color: lightgrey darkgrey darkgrey lightgrey;
+            background-color:rgba(192,192,192, 0.6);
+
+            &:active {
+                background-color: rgba(164, 163, 163, 0.674);
+                border-color: darkgrey lightgrey lightgrey darkgrey;
+            }
+        }
+    }
+}

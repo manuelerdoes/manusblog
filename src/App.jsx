@@ -82,7 +82,7 @@ const App = () => {
           ) : (
             showUserstuff ? (
               <>
-                {currentUser ? <Usermanager /> : <Login />}
+                {currentUser ? <Usermanager /> : <Login setShowUserstuff={setShowUserstuff} />}
               </>
             ) : (
               <>

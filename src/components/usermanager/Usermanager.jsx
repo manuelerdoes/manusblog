@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./usermanager.css"
 import { useUserStore } from '../../lib/userStore';
 import { auth, db } from '../../lib/firebase';
-import { updateCurrentUser } from 'firebase/auth';
+import { reauthenticateWithCredential, updateCurrentUser, updatePassword, EmailAuthProvider, updateEmail } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import upload from "../../lib/upload";
 
@@ -10,6 +10,13 @@ import upload from "../../lib/upload";
 function Usermanager() {
 
     const { currentUser, fetchUserInfo } = useUserStore();
+    const [loading, setLoading] = useState(false);
+    const [avatarStatus, setAvatarStatus] = useState("Save");
+    const [inputUsername, setInputUsername] = useState("");
+    const [usernameStatus, setUsernameStatus] = useState("Change Username");
+    const [inputPassword, setInputPassword] = useState("");
+    const [passwordStatus, setPasswordStatus] = useState("Change Password");
+    const [inputCurrentPassword, setInputCurrentPassword] = useState("");
 
     const [avatar, setAvatar] = useState({
         file: null,
@@ -18,6 +25,7 @@ function Usermanager() {
 
     const handleAvatar = (e) => {
         if (e.target.files[0]) {
+            setAvatarStatus("Save");
             setAvatar({
                 file: e.target.files[0],
                 url: URL.createObjectURL(e.target.files[0]),
@@ -26,7 +34,7 @@ function Usermanager() {
     };
 
     const handleUpdateAvatar = async () => {
-        console.log("handleUpdateAvatar");
+        setLoading(true);
         const imgUrl = await upload(avatar.file);
 
         try {
@@ -34,19 +42,69 @@ function Usermanager() {
             await updateDoc(doc(db, "users", currentUser.id), {
                 avatar: imgUrl,
             });
-            fetchUserInfo();
+            setAvatarStatus("Saved!")
         } catch (error) {
             console.log(error.message)
+            setAvatarStatus(error.message)
         } finally {
-
+            setLoading(false);
         }
     }
+
+    const handleUpdateUsername = async () => {
+        setLoading(true);
+
+        try {
+            await updateDoc(doc(db, "users", currentUser.id), {
+                username: inputUsername,
+            });
+            setUsernameStatus("Username changed!");
+        } catch (error) {
+            console.log(error.message);
+            setUsernameStatus(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleUsernameInputChange = (e) => {
+        setInputUsername(e.target.value)
+        setUsernameStatus("Change Username")
+    }
+
+    const handleUpdatePassword = async () => {
+        setLoading(true);
+
+        try {
+            const credential = EmailAuthProvider.credential(
+                auth.currentUser.email,  // User's email
+                inputCurrentPassword // The current password user provides before updating
+            );
+
+            // Reauthenticate the user
+            await reauthenticateWithCredential(auth.currentUser, credential);
+            await updatePassword(auth.currentUser, inputPassword);
+
+            setPasswordStatus("Password changed!");
+        } catch (error) {
+            console.log(error.message);
+            setPasswordStatus(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handlePasswordInputChange = (e) => {
+        setInputPassword(e.target.value)
+        setPasswordStatus("Change Password")
+    }
+
 
     return (
         <div className='usermanager'>
             <div className="info">
                 <h2>{currentUser.username}</h2>
-                <p>email: max@muster.ch</p>
+                <p>{currentUser.email}</p>
                 <div className="changeavatar">
 
                     <label htmlFor="file">
@@ -55,21 +113,24 @@ function Usermanager() {
                         Upload new avatar pic
                     </label>
                     <input type="file" id="file" style={{ display: "none" }} onChange={handleAvatar} />
-                    <button onClick={handleUpdateAvatar}>Save</button>
+                    <button disabled={loading} onClick={handleUpdateAvatar}>
+                        {loading ? "loading..." : avatarStatus}</button>
                 </div>
             </div>
             <div className="useraction">
                 <div className="changeusername">
-                    <input type="text" placeholder='Username' name='username' />
-                    <button>Change Username</button>
+                    <input type="text" placeholder='Username' name='username'
+                        onChange={handleUsernameInputChange} />
+                    <button disabled={loading} onClick={handleUpdateUsername}>
+                        {loading ? "loading..." : usernameStatus}</button>
                 </div>
                 <div className="changepassword">
-                    <input type="password" placeholder='Password' name='password' />
-                    <button>Change Password</button>
-                </div>
-                <div className="changemail">
-                    <input type="text" placeholder='Email' name='email' />
-                    <button>Change Email</button>
+                    <input type="password" placeholder='Old Password' name='oldpassword'
+                        onChange={(e) => { setInputCurrentPassword(e.target.value) }} />
+                    <input type="password" placeholder='New Password' name='password'
+                        onChange={handlePasswordInputChange} />
+                    <button disabled={loading} onClick={handleUpdatePassword}>
+                        {loading ? "loading..." : passwordStatus}</button>
                 </div>
                 <div className="logout">
                     <button onClick={() => auth.signOut()}>Logout</button>

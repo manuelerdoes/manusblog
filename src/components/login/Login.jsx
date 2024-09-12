@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import "./login.css"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from 'firebase/firestore';
 import upload from "../../lib/upload";
 
-function Login() {
+function Login({setShowUserstuff}) {
   const [avatar, setAvatar] = useState({
     file: null,
     url: ""
@@ -16,6 +16,7 @@ function Login() {
   const [registerError, setRegisterError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loginError, setLoginError] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   const handleAvatar = (e) => {
     if (e.target.files[0]) {
@@ -39,6 +40,7 @@ function Login() {
       await signInWithEmailAndPassword(auth, email, password);
 
       setLoginError(false);
+      setShowUserstuff(false);
     } catch (error) {
       console.log(error.message);
       setErrorMessage(error.message);
@@ -46,6 +48,29 @@ function Login() {
     } finally {
       setLoading(false);
     }
+  }
+
+  const sendPasswordReset = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { email } = Object.fromEntries(formData);
+    await sendPasswordResetEmail(auth, email)
+      .then(function () {
+        // Password Reset Email Sent!
+        alert('Password Reset Email Sent!');
+        setForgotPassword(false);
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode == 'auth/invalid-email') {
+          alert(errorMessage);
+        } else if (errorCode == 'auth/user-not-found') {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
   }
 
   const handleRegister = async (e) => {
@@ -59,7 +84,10 @@ function Login() {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password)
 
-      const imgUrl = await upload(avatar.file)
+      const imgUrl = "";
+      if (!avatar) {
+        imgUrl = await upload(avatar.file)
+      }
 
       await setDoc(doc(db, "users", res.user.uid), {
         username,
@@ -84,14 +112,31 @@ function Login() {
 
   return (
     <div className='login'>
-      <div className="item">
-        <h2>Welcome back,</h2>
-        <form onSubmit={handleLogin}>
-          <input type="text" placeholder='Email' name='email' />
-          <input type="password" placeholder='Password' name='password' />
-          <button disabled={loading}>{loading ? "loading" : "Sign In"}</button>
-        </form>
-      </div>
+      {!forgotPassword ? (
+        <div className="item">
+          <h2>Welcome back,</h2>
+          <form onSubmit={handleLogin}>
+            <input type="text" placeholder='Email' name='email' />
+            <input type="password" placeholder='Password' name='password' />
+            <button disabled={loading}>{loading ? "loading" : "Sign In"}</button>
+          </form>
+          <span className='forgotpassword' onClick={() => setForgotPassword(true)}>forgot password</span>
+        </div>
+      ) : (
+        <div className="item">
+          <h2>Reset Password</h2>
+          <form onSubmit={sendPasswordReset}>
+            <input type="text" placeholder='Email' name='email' />
+            <button>Send</button>
+            {loginError &&
+            <div className="loginerror">
+              <h3>Could not Login!</h3>
+              <span>{errorMessage}</span>
+            </div>
+          }
+          </form>
+        </div>
+      )}
       <div className="separator"></div>
       <div className="item">
         <h2>Create an account</h2>

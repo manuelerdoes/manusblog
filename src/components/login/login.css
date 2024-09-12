@@ -12,6 +12,11 @@
       flex-direction: column;
       align-items: center;
       gap: 30px;
+
+      .forgotpassword {
+        text-decoration: underline;
+        cursor: pointer;
+      }
   
       form {
         display: flex;

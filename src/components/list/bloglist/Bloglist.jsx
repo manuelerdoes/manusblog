@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import "./bloglist.css"
 import { useEffect, useRef } from 'react';
+import { useBlogListStore } from '../../../lib/blogListStore';
 
 function Bloglist() {
   const searchInputRef = useRef(null);
   const [showTopicFilter, setShowTopicFilter] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
+
+  const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
 
   // Handle the keyboard shortcut
   useEffect(() => {
@@ -39,13 +42,14 @@ function Bloglist() {
   }, [isMouseOver, searchActive]);
 
   const getAllBlogs = async () => {
-    const querySnapshot = await getDocs(collection(db, "userblogs"));
+    const querySnapshot = await getDocs(collection(db, "blogs"));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
 
     });
   }
+
 
 
   return (
@@ -71,8 +75,7 @@ function Bloglist() {
         </div>
       )}
       <div className="item">
-        <p>📸</p>
-        <p>Beispielblogtitel</p>
+        <p>{currentBlogList}</p>
       </div>
 
     </div>

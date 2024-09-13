@@ -14,6 +14,7 @@ import { onChildChanged } from "firebase/database"
 import { auth } from "./lib/firebase"
 import { useUserStore } from "./lib/userStore"
 import { useBlogStore } from "./lib/blogStore"
+import { useBlogListStore } from "./lib/blogListStore"
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
 
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { currentBlog, isLoadingBlog, fetchBlogInfo } = useBlogStore();
+  const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -45,6 +47,10 @@ const App = () => {
       fetchBlogInfo(currentBlogId); // Fetches the blog info and sets up a real-time listener
     }
   }, [currentBlogId, fetchBlogInfo]);
+
+  useEffect(() => {
+      fetchBlogListInfo();
+  }, [fetchBlogListInfo]);
 
   useEffect(() => {
     // Update the body background image and other styles

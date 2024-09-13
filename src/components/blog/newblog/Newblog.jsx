@@ -69,7 +69,8 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                         <label htmlFor="">Blog Title:</label>
                         <input type="text" placeholder='Blog Title' 
                         name="title" value={newBlogTitle} 
-                        onChange={(e) => setNewBlogTitle(e.target.value)}/>
+                        onChange={(e) => setNewBlogTitle(e.target.value)} 
+                        required/>
                     </div>
                     <div className="settopic item">
                         <label htmlFor="">Topic:</label>
@@ -92,7 +93,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     <div className="setcontent item">
                         <label htmlFor="">Content:</label>
                         <textarea placeholder='content' name="content" value={newBlogContent}
-                        onChange={(e) => setNewBlogContent(e.target.value)}></textarea>
+                        onChange={(e) => setNewBlogContent(e.target.value)} required></textarea>
                     </div>
                     <div className="newblogbuttons item">
                         <div className="cancelblog">

@@ -2,10 +2,12 @@ import React from 'react'
 import "./blog.css"
 import Comments from './comments/Comments'
 import Newblog from './newblog/Newblog'
+import { useUserStore } from '../../lib/userStore'
 
 
 
-const Blog = ({ createMode, setCreateMode }) => {
+const Blog = ({ createMode, setCreateMode, setTopic, topic }) => {
+
   return (
     !createMode ? (
       <div className='blog'>
@@ -44,7 +46,7 @@ const Blog = ({ createMode, setCreateMode }) => {
 
       </div>
     ) : (
-      <Newblog setCreateMode={setCreateMode}/>
+      <Newblog setCreateMode={setCreateMode} setTopic={setTopic} topic={topic}/>
     )
   )
 }

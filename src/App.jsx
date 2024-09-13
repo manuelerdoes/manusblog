@@ -99,7 +99,8 @@ const App = () => {
             ) : (
               <>
                 <List />
-                <Blog createMode={createMode} setCreateMode={setCreateMode}/>
+                <Blog createMode={createMode} setCreateMode={setCreateMode} 
+                  setTopic={setTopic} topic={topic}/>
                 <Details topic={topic} setTopic={setTopic} createMode={createMode}/>
               </>
             ))

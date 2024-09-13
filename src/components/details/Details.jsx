@@ -1,37 +1,38 @@
 import React from 'react'
 import "./details.css"
 import { useEffect } from 'react';
+import { useBlogStore } from '../../lib/blogStore';
 
-const Details = ({ topic, setTopic, createMode }) => {
+const Details = ({ createMode }) => {
 
-  useEffect(() => {
-    // Simulate fetching the topic
-    const fetchedTopic = "roboticssdf"; // Assume this is fetched
-
-    // Set the topic after fetching
-    setTopic(fetchedTopic);
-  }, [setTopic]); // Dependency array ensures this runs only once when the component mounts
+  const { currentBlog } = useBlogStore();
 
   return (
-    
-    
+
+
     !createMode ? (
-      <div className='details'>
-        <div className="author">
-          <h3>created by</h3>
-          <p>Maneul</p>
+      !currentBlog ? (
+        <div className="details">
+          <p>could not fetch data</p>
         </div>
-        <div className="timestamps">
-          <h3>created on</h3>
-          <p>21.3.2024</p>
-          <h3>last modified</h3>
-          <p>12.6.2024</p>
+      ) : (
+        <div className='details'>
+          <div className="author">
+            <h3>created by</h3>
+            <p>{currentBlog.username}</p>
+          </div>
+          <div className="timestamps">
+            <h3>created on</h3>
+            <p>{currentBlog.created}</p>
+            <h3>last modified</h3>
+            <p>{currentBlog.modified}</p>
+          </div>
+          <div className="{topic}">
+            <h3>topic</h3>
+            <p>{currentBlog.topic}</p>
+          </div>
         </div>
-        <div className="{topic}">
-          <h3>topic</h3>
-          <p>{topic}</p>
-        </div>
-      </div>
+      )
     ) : (
       <div className="details">
         <h3>new blog</h3>

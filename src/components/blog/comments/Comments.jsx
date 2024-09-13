@@ -1,62 +1,98 @@
 import React, { useEffect, useState } from 'react'
 import "./comments.css"
+import { useBlogStore } from '../../../lib/blogStore';
+import { useUserStore } from '../../../lib/userStore';
+import { arrayUnion, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../lib/firebase';
+import { getFormattedDateTime } from '../../../lib/utils';
+import { useRef } from 'react';
 
 function Comments() {
   const [showComments, setShowComments] = useState(true);
+  const [commentText, setCommentText] = useState("");
 
-  const toggleComments = () => {
-    const newShowComments = !showComments; // Calculate the new value of showComments
-    setShowComments(newShowComments); // Update the state
+  const { currentUser } = useUserStore();
+  const { currentBlog, fetchBlogInfo } = useBlogStore();
+  const commentInputRef = useRef(null);
+
+  const toggleComments = async () => {
+    const newShowComments = !showComments;
+    setShowComments(newShowComments);
 
     // Scroll only if the new value of showComments is true (i.e., the comments are being shown)
     if (newShowComments) {
       window.scrollTo({
         top: document.documentElement.scrollHeight, // Scroll to the bottom of the page
-        behavior: 'smooth' 
+        behavior: 'smooth'
       });
     }
   }
+
+  const handleNewComment = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { newcomment } = Object.fromEntries(formData);
+
+    if (!newcomment || !currentBlog?.id || !currentUser?.id) {
+      console.log("Missing necessary data to submit the comment.");
+      return;
+    }
+
+    try {
+      await updateDoc(doc(db, "blogs", currentBlog.id), {
+        comments: arrayUnion({
+          userid: currentUser.id,
+          username: currentUser.username,
+          text: newcomment,
+          createdAt: getFormattedDateTime(),
+        }),
+      });
+
+      setCommentText("");
+      console.log("Comment added successfully!");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
 
   return (
     <div className='comments'>
       <div className="commentsheader">
         <h2>Comments</h2>
-        <span onClick={toggleComments}>show/hide comments</span>
+        <span onClick={toggleComments}>👁️</span>
       </div>
       {showComments && (
         <div className="allcomments">
-          <div className="commentcontainer">
-            <div className="commentuser">
-              <h3>Ueli</h3>
+          {!currentBlog.comments ? (
+            <div className="commentcontainer">
+              <h3>no comments</h3>
             </div>
-            <div className="commentcontent">
-              <p>Dieser Blog ist scheisse. Alles die Schuld der Ausländer. Und der Cüpli-Sozis.
-                Ich suche mir einen guten Schweizer blog, falls es das noch gibt.</p>
-            </div>
-          </div>
-          <div className="commentcontainer">
-            <div className="commentuser">
-              <h3>Ruedi</h3>
-            </div>
-            <div className="commentcontent">
-              <p>Finde ich auch. Nicht mal mehr Deutsch könen die. ich weis auch nicht was das für
-                eine tubel-sprahce ist hier.
-              </p>
-            </div>
-          </div>
-          <div className="commentcontainer">
-            <div className="commentuser">
-              <h3>HP Meier</h3>
-            </div>
-            <div className="commentcontent">
-              <p>
-                Saupack!
-              </p>
-            </div>
-          </div>
+          ) : (
+            currentBlog?.comments.map((comment) => (
+              <div className="commentcontainer">
+                <div className="commentuser">
+                  <h3>{comment?.username}</h3>
+                </div>
+                <div className="commentcontent">
+                  <p>{comment?.text}</p>
+                </div>
+              </div>
+            ))
+          )
+          }
           <div className="newcomment">
-            <input type="text" placeholder='Comment' name='newcomment' />
-            <button>Submit</button>
+            <form onSubmit={handleNewComment}>
+              <div className="texti">
+                {/* <input type="text" placeholder='Comment' name='newcomment' /> */}
+                <textarea name='newcomment' id='newcomment' 
+                value={commentText} onChange={(e) => setCommentText(e.target.value)}></textarea>
+              </div>
+              <div className="boetton">
+                <button>Submit</button>
+              </div>
+            </form>
           </div>
         </div>
       )}

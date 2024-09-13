@@ -10,8 +10,10 @@ import Login from "./components/login/Login"
 import Usermanager from "./components/usermanager/Usermanager"
 import About from "./components/about/About"
 import { onAuthStateChanged } from "firebase/auth"
+import { onChildChanged } from "firebase/database"
 import { auth } from "./lib/firebase"
 import { useUserStore } from "./lib/userStore"
+import { useBlogStore } from "./lib/blogStore"
 
 const App = () => {
 
@@ -20,12 +22,13 @@ const App = () => {
   const [showUserstuff, setShowUserstuff] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [createMode, setCreateMode] = useState(false);
-  // const user = {
-  //   name: "Oergel"
-  // }
-  // const user = null;
+  const [currentBlogId, setCurrentBlogId] = useState("welcome");
+  const [newBlogTitle, setNewBlogTitle] = useState("");
+  const [newBlogTags, setNewBlogTags] = useState("");
+  const [newBlogContent, setNewBlogContent] = useState("");
 
-  const { currentUser, isLoading, fetchUserInfo } = useUserStore()
+  const { currentUser, isLoading, fetchUserInfo } = useUserStore();
+  const { currentBlog, isLoadingBlog, fetchBlogInfo } = useBlogStore();
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -37,7 +40,11 @@ const App = () => {
     }
   }, [fetchUserInfo]);
 
-  // console.log(currentUser);
+  useEffect(() => {
+    if (currentBlogId) {
+      fetchBlogInfo(currentBlogId); // Fetches the blog info and sets up a real-time listener
+    }
+  }, [currentBlogId, fetchBlogInfo]);
 
   useEffect(() => {
     // Update the body background image and other styles
@@ -75,8 +82,8 @@ const App = () => {
             color: styleScheme.headerTextColor,
             borderColor: styleScheme.headerBorderColor
           }}>My Blogs</button>
-      <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
-    </div >
+        <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
+      </div >
 
 
       <div className='container'
@@ -99,9 +106,13 @@ const App = () => {
             ) : (
               <>
                 <List />
-                <Blog createMode={createMode} setCreateMode={setCreateMode} 
-                  setTopic={setTopic} topic={topic}/>
-                <Details topic={topic} setTopic={setTopic} createMode={createMode}/>
+                <Blog createMode={createMode} setCreateMode={setCreateMode}
+                  setTopic={setTopic} topic={topic} currentBlogId={currentBlogId} 
+                  setCurrentBlogId={setCurrentBlogId} newBlogTitle={newBlogTitle} 
+                  setNewBlogTitle={setNewBlogTitle} newBlogTags={newBlogTags} 
+                  setNewBlogTags={setNewBlogTags} newBlogContent={newBlogContent} 
+                  setNewBlogContent={setNewBlogContent}/>
+                <Details topic={topic} setTopic={setTopic} createMode={createMode} />
               </>
             ))
         }

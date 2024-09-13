@@ -96,9 +96,6 @@ function Login({setShowUserstuff}) {
         id: res.user.uid,
       });
 
-      await setDoc(doc(db, "userblogs", res.user.uid), {
-        blogs: [],
-      });
       setRegisterSuccess(true);
       setRegisterError(false);
     } catch (error) {

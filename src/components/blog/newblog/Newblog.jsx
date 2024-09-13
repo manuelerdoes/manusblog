@@ -5,13 +5,20 @@ import { getFormattedDateTime } from '../../../lib/utils';
 import { auth, db } from '../../../lib/firebase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
-function Newblog({ setCreateMode, topic, setTopic }) {
+function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogContent, 
+    setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags }) {
 
     const { currentUser, isLoading, fetchUserInfo } = useUserStore();
     const [loading, setLoading] = useState(false);
 
+
+
     const handleCancelButton = () => {
         setCreateMode(false);
+        setNewBlogContent("");
+        setNewBlogTitle("");
+        setNewBlogTags("");
+        setTopic("other");
     }
 
     const handleSaveButton = async (e) => {
@@ -23,23 +30,27 @@ function Newblog({ setCreateMode, topic, setTopic }) {
 
         try {
             await setDoc(doc(db, "blogs", blogid), {
+                id: blogid,
                 title,
                 topic: selectedtopic,
                 tags,
                 userid: auth.currentUser.uid,
+                username: currentUser.username,
                 created: getFormattedDateTime(),
                 modified: getFormattedDateTime(),
-                content,    
+                content,
             });
+
             alert("blog saved!")
+            setTopic(selectedtopic);
+            setCurrentBlogId(blogid);
+            setCreateMode(false);
             
         } catch (error) {
             console.log(error.message);
         } finally {
             setLoading(false);
         }
-        
-        // setCreateMode(false);
     }
 
     const handleSelection = (e) => {
@@ -56,11 +67,14 @@ function Newblog({ setCreateMode, topic, setTopic }) {
                 <form onSubmit={handleSaveButton} >
                     <div className="settitle item">
                         <label htmlFor="">Blog Title:</label>
-                        <input type="text" placeholder='Blog Title' name = "title"/>
+                        <input type="text" placeholder='Blog Title' 
+                        name="title" value={newBlogTitle} 
+                        onChange={(e) => setNewBlogTitle(e.target.value)}/>
                     </div>
                     <div className="settopic item">
                         <label htmlFor="">Topic:</label>
-                        <select name="selectedtopic" onChange={handleSelection}>
+                        <select name="selectedtopic" value={topic}
+                        onChange={handleSelection}>
                             <option value="computer">Computer</option>
                             <option value="food">Food</option>
                             <option value="music">Music</option>
@@ -72,11 +86,13 @@ function Newblog({ setCreateMode, topic, setTopic }) {
                     </div>
                     <div className="settags item">
                         <label htmlFor="">Tags:</label>
-                        <input type="text" placeholder='Tags' name="tags" />
+                        <input type="text" placeholder='Tags' name="tags" 
+                        value={newBlogTags} onChange={(e) => setNewBlogTags(e.target.value)} />
                     </div>
                     <div className="setcontent item">
                         <label htmlFor="">Content:</label>
-                        <textarea placeholder='content' name="content"></textarea>
+                        <textarea placeholder='content' name="content" value={newBlogContent}
+                        onChange={(e) => setNewBlogContent(e.target.value)}></textarea>
                     </div>
                     <div className="newblogbuttons item">
                         <div className="cancelblog">

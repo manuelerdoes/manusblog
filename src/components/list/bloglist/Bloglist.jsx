@@ -3,11 +3,12 @@ import "./bloglist.css"
 import { useEffect, useRef } from 'react';
 import { useBlogListStore } from '../../../lib/blogListStore';
 
-function Bloglist({setCurrentBlogId}) {
+function Bloglist({ setCurrentBlogId }) {
   const searchInputRef = useRef(null);
   const [showTopicFilter, setShowTopicFilter] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
 
@@ -46,6 +47,9 @@ function Bloglist({setCurrentBlogId}) {
     setCurrentBlogId(id);
   }
 
+  useEffect(() => {
+
+  }, [searchValue]);
 
 
   return (
@@ -55,7 +59,8 @@ function Bloglist({setCurrentBlogId}) {
         <div className="searchbar">
           <img src="./search.png" alt="" />
           <input ref={searchInputRef} type="text" placeholder='Search: CMD/CTRL + K'
-            onFocus={() => setSearchActive(true)} onBlur={() => setSearchActive(false)} />
+            onFocus={() => setSearchActive(true)} onBlur={() => setSearchActive(false)}
+            onChange={(e) => setSearchValue(e.target.value)} value={searchValue}/>
         </div>
       </div>
       {showTopicFilter && (
@@ -71,8 +76,8 @@ function Bloglist({setCurrentBlogId}) {
         </div>
       )}
       {currentBlogList.map(blogentry => (
-        <div key={blogentry.id} className={`item ${blogentry.topic}`} 
-        onClick={() => handleBlogClick(blogentry.id)}>
+        <div key={blogentry.id} className={`item ${blogentry.topic}`}
+          onClick={() => handleBlogClick(blogentry.id)}>
           <p>{blogentry.title}</p>
         </div>
       ))}

@@ -7,8 +7,9 @@ import { useBlogStore } from '../../lib/blogStore';
 
 
 const Blog = ({ createMode, setCreateMode, setTopic, topic, 
-  setCurrentBlogId, newBlogContent, 
-  setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags}) => {
+  setCurrentBlogId, newBlogContent, setNewBlogContent,
+  newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags,
+  editMode}) => {
 
 
   const { currentBlog } = useBlogStore();
@@ -18,7 +19,7 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
       !currentBlog ? (
         <div className="blog">
           <div className="blogtitle">
-            Could not fetch blog
+            loading...
           </div>
         </div>
       ) : (
@@ -39,7 +40,8 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
       setTopic={setTopic} setCurrentBlogId={setCurrentBlogId}
       newBlogTitle={newBlogTitle} setNewBlogTitle={setNewBlogTitle}
       newBlogTags={newBlogTags} setNewBlogTags={setNewBlogTags}
-      newBlogContent={newBlogContent} setNewBlogContent={setNewBlogContent}/>
+      newBlogContent={newBlogContent} setNewBlogContent={setNewBlogContent}
+      editMode={editMode}/>
     )
   )
 }

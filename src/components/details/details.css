@@ -5,12 +5,46 @@
     gap: 10px;
     padding: 5px;
     padding-top: 20px;
-    
+
     h3 {
         font-size: medium;
     }
 
     p {
         padding-bottom: 10px;
+    }
+
+
+    .manageButtons {
+        display: flex;
+        gap: 10px;
+
+        button {
+            /* background-color: transparent; */
+            /* border: 1px solid rgba(69, 69, 234, 0.751); */
+            background-color: rgba(221, 106, 61, 0.841);
+            padding: 5px;
+            color: rgb(0, 0, 0);
+            border-radius: 10px;
+            border: 2px solid;
+            border-color: rgb(248, 168, 110) rgb(222, 112, 33) rgb(222, 112, 33) rgb(248, 168, 110);
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(221, 106, 61, 0.639);
+            }
+
+            &:active {
+                background-color: rgba(142, 54, 20, 0.667);
+                border-color: rgb(222, 112, 33) rgb(248, 168, 110) rgb(248, 168, 110) rgb(222, 112, 33);
+            }
+        }
+
+        .editButton {
+            button {
+                background-color: rgba(61, 221, 202, 0.544);
+                border-color: rgba(81, 189, 177, 0.625) rgba(61, 221, 202, 0.755) rgba(61, 221, 202, 0.755) rgba(81, 189, 177, 0.625);
+            }
+        }
     }
 }

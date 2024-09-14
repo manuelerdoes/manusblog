@@ -10,7 +10,6 @@ import Login from "./components/login/Login"
 import Usermanager from "./components/usermanager/Usermanager"
 import About from "./components/about/About"
 import { onAuthStateChanged } from "firebase/auth"
-import { onChildChanged } from "firebase/database"
 import { auth } from "./lib/firebase"
 import { useUserStore } from "./lib/userStore"
 import { useBlogStore } from "./lib/blogStore"
@@ -27,9 +26,10 @@ const App = () => {
   const [newBlogTitle, setNewBlogTitle] = useState("");
   const [newBlogTags, setNewBlogTags] = useState("");
   const [newBlogContent, setNewBlogContent] = useState("");
+  const [editMode, setEditMode] = useState(false);
 
-  const { currentUser, isLoading, fetchUserInfo } = useUserStore();
-  const { currentBlog, isLoadingBlog, fetchBlogInfo } = useBlogStore();
+  const { currentUser, fetchUserInfo } = useUserStore();
+  const { currentBlog, fetchBlogInfo } = useBlogStore();
   const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const App = () => {
           style={{
             color: styleScheme.headerTextColor,
             borderColor: styleScheme.headerBorderColor
-          }}>My Blogs</button>
+          }}>All Blogs</button>
         <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
       </div >
 
@@ -123,8 +123,11 @@ const App = () => {
                   setCurrentBlogId={setCurrentBlogId} newBlogTitle={newBlogTitle} 
                   setNewBlogTitle={setNewBlogTitle} newBlogTags={newBlogTags} 
                   setNewBlogTags={setNewBlogTags} newBlogContent={newBlogContent} 
-                  setNewBlogContent={setNewBlogContent}/>
-                <Details topic={topic} setTopic={setTopic} createMode={createMode} />
+                  setNewBlogContent={setNewBlogContent} editMode={editMode}/>
+                <Details topic={topic} setTopic={setTopic} createMode={createMode} 
+                  setCreateMode={setCreateMode} setNewBlogTitle={setNewBlogTitle}
+                  setNewBlogTags={setNewBlogTags} setNewBlogContent={setNewBlogContent}
+                  setEditMode={setEditMode} setCurrentBlogId={setCurrentBlogId}/>
               </>
             ))
         }

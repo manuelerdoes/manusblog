@@ -7,7 +7,8 @@ import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useBlogStore } from '../../../lib/blogStore';
 
 function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogContent,
-    setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode }) {
+    setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode, 
+    setEditMode }) {
 
     const { currentUser } = useUserStore();
     const { currentBlog } = useBlogStore();
@@ -59,6 +60,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     content,
                 });
                 setCurrentBlogId(currentBlog.id);
+                setEditMode(false);
             }
 
             // alert("blog saved!")

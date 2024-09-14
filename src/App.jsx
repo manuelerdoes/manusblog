@@ -27,6 +27,7 @@ const App = () => {
   const [newBlogTags, setNewBlogTags] = useState("");
   const [newBlogContent, setNewBlogContent] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const [hasRunOnce, setHasRunOnce] = useState(false);
 
   const { currentUser, fetchUserInfo } = useUserStore();
   const { currentBlog, fetchBlogInfo } = useBlogStore();
@@ -57,6 +58,18 @@ const App = () => {
   useEffect(() => {
       fetchBlogListInfo();
   }, [fetchBlogListInfo]);
+
+  useEffect(() => {
+    if (!editMode) {
+      setNewBlogTitle("");
+      setNewBlogTags("");
+      setNewBlogContent("");
+    }
+  }, [editMode]);
+
+  useEffect(() => {
+    setCurrentBlogId(currentBlogList[0]?.id);
+  }, []);
 
   useEffect(() => {
     // Update the body background image and other styles
@@ -123,7 +136,8 @@ const App = () => {
                   setCurrentBlogId={setCurrentBlogId} newBlogTitle={newBlogTitle} 
                   setNewBlogTitle={setNewBlogTitle} newBlogTags={newBlogTags} 
                   setNewBlogTags={setNewBlogTags} newBlogContent={newBlogContent} 
-                  setNewBlogContent={setNewBlogContent} editMode={editMode}/>
+                  setNewBlogContent={setNewBlogContent} editMode={editMode}
+                  setEditMode={setEditMode}/>
                 <Details topic={topic} setTopic={setTopic} createMode={createMode} 
                   setCreateMode={setCreateMode} setNewBlogTitle={setNewBlogTitle}
                   setNewBlogTags={setNewBlogTags} setNewBlogContent={setNewBlogContent}

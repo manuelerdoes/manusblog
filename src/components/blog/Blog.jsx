@@ -9,7 +9,7 @@ import { useBlogStore } from '../../lib/blogStore';
 const Blog = ({ createMode, setCreateMode, setTopic, topic, 
   setCurrentBlogId, newBlogContent, setNewBlogContent,
   newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags,
-  editMode}) => {
+  editMode, setEditMode}) => {
 
 
   const { currentBlog } = useBlogStore();
@@ -41,7 +41,7 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
       newBlogTitle={newBlogTitle} setNewBlogTitle={setNewBlogTitle}
       newBlogTags={newBlogTags} setNewBlogTags={setNewBlogTags}
       newBlogContent={newBlogContent} setNewBlogContent={setNewBlogContent}
-      editMode={editMode}/>
+      editMode={editMode} setEditMode={setEditMode}/>
     )
   )
 }

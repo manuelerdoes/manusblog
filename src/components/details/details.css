@@ -43,7 +43,16 @@
         .editButton {
             button {
                 background-color: rgba(61, 221, 202, 0.544);
-                border-color: rgba(81, 189, 177, 0.625) rgba(61, 221, 202, 0.755) rgba(61, 221, 202, 0.755) rgba(81, 189, 177, 0.625);
+                border-color: rgba(61, 221, 202, 0.755) rgba(81, 189, 177, 0.625) rgba(81, 189, 177, 0.625) rgba(61, 221, 202, 0.755);
+
+                &:hover {
+                    background-color: rgba(61, 221, 202, 0.393);
+                }
+    
+                &:active {
+                    background-color: rgba(42, 134, 123, 0.544);
+                    border-color: rgba(81, 189, 177, 0.625) rgba(61, 221, 202, 0.755) rgba(61, 221, 202, 0.755) rgba(81, 189, 177, 0.625);
+                }
             }
         }
     }

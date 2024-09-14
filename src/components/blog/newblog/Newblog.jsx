@@ -63,7 +63,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
 
             // alert("blog saved!")
             setTopic(selectedtopic);
-            setCurrentBlogId(blogid);
+            // setCurrentBlogId(blogid);
             setCreateMode(false);
 
         } catch (error) {

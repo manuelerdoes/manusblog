@@ -49,6 +49,12 @@ const App = () => {
   }, [currentBlogId, fetchBlogInfo]);
 
   useEffect(() => {
+    if (currentBlog) {
+      setTopic(currentBlog.topic);
+    }
+  }, [currentBlog]);
+
+  useEffect(() => {
       fetchBlogListInfo();
   }, [fetchBlogListInfo]);
 
@@ -111,7 +117,7 @@ const App = () => {
               </>
             ) : (
               <>
-                <List />
+                <List setCurrentBlogId={setCurrentBlogId}/>
                 <Blog createMode={createMode} setCreateMode={setCreateMode}
                   setTopic={setTopic} topic={topic} currentBlogId={currentBlogId} 
                   setCurrentBlogId={setCurrentBlogId} newBlogTitle={newBlogTitle} 

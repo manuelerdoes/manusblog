@@ -8,7 +8,7 @@ import { getFormattedDateTime } from '../../../lib/utils';
 import { useRef } from 'react';
 
 function Comments() {
-  const [showComments, setShowComments] = useState(true);
+  const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState("");
 
   const { currentUser } = useUserStore();

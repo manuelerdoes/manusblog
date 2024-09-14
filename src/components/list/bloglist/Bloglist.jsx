@@ -3,7 +3,7 @@ import "./bloglist.css"
 import { useEffect, useRef } from 'react';
 import { useBlogListStore } from '../../../lib/blogListStore';
 
-function Bloglist() {
+function Bloglist({setCurrentBlogId}) {
   const searchInputRef = useRef(null);
   const [showTopicFilter, setShowTopicFilter] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
@@ -41,13 +41,9 @@ function Bloglist() {
 
   }, [isMouseOver, searchActive]);
 
-  const getAllBlogs = async () => {
-    const querySnapshot = await getDocs(collection(db, "blogs"));
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-
-    });
+  const handleBlogClick = (id) => {
+    console.log("clicked blog: " + id);
+    setCurrentBlogId(id);
   }
 
 
@@ -74,9 +70,12 @@ function Bloglist() {
           <div className="topic othertopic"><span>⭐️ other</span></div>
         </div>
       )}
-      <div className="item">
-        <p>{currentBlogList}</p>
-      </div>
+      {currentBlogList.map(blogentry => (
+        <div key={blogentry.id} className={`item ${blogentry.topic}`} 
+        onClick={() => handleBlogClick(blogentry.id)}>
+          <p>{blogentry.title}</p>
+        </div>
+      ))}
 
     </div>
   )

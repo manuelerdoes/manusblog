@@ -1,11 +1,11 @@
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { create } from "zustand";
 import { db } from "./firebase";
 
 export const useBlogListStore = create((set) => ({
-  currentBlogList: null,
+  currentBlogList: [],  // Will store an array of blogs
   isLoadingBlogList: true,
-  unsubscribeFromBlogList: null, // Store the unsubscribe function
+  unsubscribeFromBlogList: null,
 
   fetchBlogListInfo: () => {
     // Unsubscribe from previous blog listener if it exists
@@ -13,21 +13,18 @@ export const useBlogListStore = create((set) => ({
       useBlogListStore.getState().unsubscribeFromBlogList();
     }
 
-    const docRef = doc(collection(db, "blogs"));
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        set({ currentBlogList: docSnap.data(), isLoadingBlogList: false });
-      } else {
-        set({ currentBlogList: null, isLoadingBlogList: false });
-      }
+    // Reference to the "blogs" collection
+    const collectionRef = collection(db, "blogs");
+
+    // Listen to real-time updates in the "blogs" collection
+    const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
+      const blogs = [];
+      querySnapshot.forEach((doc) => {
+        blogs.push({ id: doc.id, ...doc.data() });  // Collect each blog's data with the document ID
+      });
+
+      set({ currentBlogList: blogs, isLoadingBlogList: false });
     });
-
-    // const querySnapshot = await getDocs(collection(db, "blogs"));
-    // querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   console.log(doc.id, " => ", doc.data());
-
-    // });
 
     // Save the unsubscribe function
     set({ unsubscribeFromBlogList: unsubscribe });

@@ -14,6 +14,7 @@ import { auth } from "./lib/firebase"
 import { useUserStore } from "./lib/userStore"
 import { useBlogStore } from "./lib/blogStore"
 import { useBlogListStore } from "./lib/blogListStore"
+import Search from "./components/search/Search"
 
 const App = () => {
 
@@ -27,7 +28,7 @@ const App = () => {
   const [newBlogTags, setNewBlogTags] = useState("");
   const [newBlogContent, setNewBlogContent] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [hasRunOnce, setHasRunOnce] = useState(false);
+  const [showSearch, setShowSearch] = useState(false); // AllBlogs
 
   const { currentUser, fetchUserInfo } = useUserStore();
   const { currentBlog, fetchBlogInfo } = useBlogStore();
@@ -56,7 +57,7 @@ const App = () => {
   }, [currentBlog]);
 
   useEffect(() => {
-      fetchBlogListInfo();
+    fetchBlogListInfo();
   }, [fetchBlogListInfo]);
 
   useEffect(() => {
@@ -106,7 +107,7 @@ const App = () => {
           style={{
             color: styleScheme.headerTextColor,
             borderColor: styleScheme.headerBorderColor
-          }}>All Blogs</button>
+          }} onClick={() => setShowSearch(!showSearch)}>All Blogs</button>
         <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
       </div >
 
@@ -123,27 +124,45 @@ const App = () => {
         {
           showAbout ? (
             <About />
+          ) : showUserstuff ? (
+            <>
+              {currentUser ? <Usermanager /> : <Login setShowUserstuff={setShowUserstuff} />}
+            </>
+          ) : showSearch ? (
+            <Search showSearch={showSearch} setShowSearch={setShowSearch} 
+            setCurrentBlogId={setCurrentBlogId}/> 
           ) : (
-            showUserstuff ? (
-              <>
-                {currentUser ? <Usermanager /> : <Login setShowUserstuff={setShowUserstuff} />}
-              </>
-            ) : (
-              <>
-                <List setCurrentBlogId={setCurrentBlogId}/>
-                <Blog createMode={createMode} setCreateMode={setCreateMode}
-                  setTopic={setTopic} topic={topic} currentBlogId={currentBlogId} 
-                  setCurrentBlogId={setCurrentBlogId} newBlogTitle={newBlogTitle} 
-                  setNewBlogTitle={setNewBlogTitle} newBlogTags={newBlogTags} 
-                  setNewBlogTags={setNewBlogTags} newBlogContent={newBlogContent} 
-                  setNewBlogContent={setNewBlogContent} editMode={editMode}
-                  setEditMode={setEditMode}/>
-                <Details topic={topic} setTopic={setTopic} createMode={createMode} 
-                  setCreateMode={setCreateMode} setNewBlogTitle={setNewBlogTitle}
-                  setNewBlogTags={setNewBlogTags} setNewBlogContent={setNewBlogContent}
-                  setEditMode={setEditMode} setCurrentBlogId={setCurrentBlogId}/>
-              </>
-            ))
+            <>
+              <List setCurrentBlogId={setCurrentBlogId} />
+              <Blog
+                createMode={createMode}
+                setCreateMode={setCreateMode}
+                setTopic={setTopic}
+                topic={topic}
+                currentBlogId={currentBlogId}
+                setCurrentBlogId={setCurrentBlogId}
+                newBlogTitle={newBlogTitle}
+                setNewBlogTitle={setNewBlogTitle}
+                newBlogTags={newBlogTags}
+                setNewBlogTags={setNewBlogTags}
+                newBlogContent={newBlogContent}
+                setNewBlogContent={setNewBlogContent}
+                editMode={editMode}
+                setEditMode={setEditMode}
+              />
+              <Details
+                topic={topic}
+                setTopic={setTopic}
+                createMode={createMode}
+                setCreateMode={setCreateMode}
+                setNewBlogTitle={setNewBlogTitle}
+                setNewBlogTags={setNewBlogTags}
+                setNewBlogContent={setNewBlogContent}
+                setEditMode={setEditMode}
+                setCurrentBlogId={setCurrentBlogId}
+              />
+            </>
+          )
         }
 
       </div>

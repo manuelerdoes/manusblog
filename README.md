@@ -11,4 +11,9 @@ npm run dev
 - BlogList.jsx: Searching and filtering
 - List of all blogs in blog view 
 - with myblogs filter
-- edit my blogs
+- edit and delete my blogs ✅
+- security
+- startseit: aktuellster blog
+- blog per url öffnen
+- markdown format
+- 

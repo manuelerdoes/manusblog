@@ -1,19 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import "./search.css"
+import React, { useEffect, useState } from 'react';
+import './search.css';
 import { useBlogListStore } from '../../lib/blogListStore';
 import { debounce } from 'lodash';
 
 function Search({ setCurrentBlogId, setShowSearch }) {
     const [searchText, setSearchText] = useState("");
     const [filteredBlogs, setFilteredBlogs] = useState([]);
+    const [sortField, setSortField] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' for ascending, 'desc' for descending
 
     const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
 
     const handleBlogClick = (id) => {
-        console.log("clicked blog: " + id);
         setCurrentBlogId(id);
         setShowSearch(false);
-    }
+    };
+
+    // Function to handle sorting
+    const handleSort = (field) => {
+        const newSortOrder = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortField(field);
+        setSortOrder(newSortOrder);
+
+        const sortedBlogs = [...filteredBlogs].sort((a, b) => {
+            const aValue = a[field] ? a[field].toString().toLowerCase() : "";
+            const bValue = b[field] ? b[field].toString().toLowerCase() : "";
+
+            if (newSortOrder === 'asc') {
+                return aValue > bValue ? 1 : -1;
+            } else {
+                return aValue < bValue ? 1 : -1;
+            }
+        });
+        setFilteredBlogs(sortedBlogs);
+    };
 
     useEffect(() => {
         const debouncedSearch = debounce((searchText) => {
@@ -21,7 +41,7 @@ function Search({ setCurrentBlogId, setShowSearch }) {
                 setFilteredBlogs(currentBlogList);  // Show all blogs when search is empty
             } else {
                 setFilteredBlogs(
-                    currentBlogList.filter((blog) => 
+                    currentBlogList.filter((blog) =>
                         blog.title.toLowerCase().includes(searchText.toLowerCase()) ||
                         blog.username.toLowerCase().includes(searchText.toLowerCase()) ||
                         blog.topic.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -38,36 +58,64 @@ function Search({ setCurrentBlogId, setShowSearch }) {
         };
     }, [searchText, currentBlogList]);
 
+    const renderSortIndicator = (field) => {
+        if (sortField === field) {
+            return sortOrder === 'asc' ? ' 🔼' : ' 🔽';
+        }
+        return null;
+    };
+
     return (
         <div className='search'>
             <div className="searchinput">
-            <img src="./search.png" alt="" />
-                <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                <img src="./search.png" alt="" />
+                <input
+                    type="text"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder='Search all Blogs'
+                />
             </div>
             <div className="results">
                 <table>
-                    <tr>
-                        <th>Title</th>
-                        <th>Topic</th>
-                        <th>Author</th>
-                        <th>Tags</th>
-                        <th>Date of creation</th>
-                    </tr>
-
-                    {filteredBlogs.map((blogentry) => (
-                        <tr key={blogentry.id} className={`item ${blogentry.topic}`}
-                            onClick={() => handleBlogClick(blogentry.id)}>
-                            <td>{blogentry.title}</td>
-                            <td>{blogentry.topic}</td>
-                            <td>👤{blogentry.username}</td>
-                            <td>{blogentry.tags}</td>
-                            <td>{blogentry.created}</td>
+                    <thead>
+                        <tr>
+                            <th onClick={() => handleSort('title')}>
+                                Title {renderSortIndicator('title')}
+                            </th>
+                            <th onClick={() => handleSort('topic')}>
+                                Topic {renderSortIndicator('topic')}
+                            </th>
+                            <th onClick={() => handleSort('username')}>
+                                Author {renderSortIndicator('username')}
+                            </th>
+                            <th onClick={() => handleSort('tags')}>
+                                Tags {renderSortIndicator('tags')}
+                            </th>
+                            <th onClick={() => handleSort('created')}>
+                                Date of creation {renderSortIndicator('created')}
+                            </th>
                         </tr>
-                    ))}
+                    </thead>
+                    <tbody>
+                        {filteredBlogs.map((blogentry) => (
+                            <tr
+                                key={blogentry.id}
+                                className={`item ${blogentry.topic}`}
+                                onClick={() => handleBlogClick(blogentry.id)}
+                            >
+                                <td>{blogentry.title}</td>
+                                <td>{blogentry.topic}</td>
+                                <td>👤{blogentry.username}</td>
+                                <td>{blogentry.tags}</td>
+                                <td>{blogentry.created}</td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
         </div>
-    )
+    );
 }
 
-export default Search
+export default Search;

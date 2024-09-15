@@ -9,8 +9,7 @@ npm run dev
 
 - blogListStore.js: only load 20 newest entries
 - BlogList.jsx: Searching and filtering
-- List of all blogs in blog view 
-- with myblogs filter
+- List of all blogs in blog view ✅
 - edit and delete my blogs ✅
 - security
 - startseit: aktuellster blog

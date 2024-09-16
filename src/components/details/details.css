@@ -8,11 +8,58 @@
 
     h3 {
         font-size: medium;
+        background-color: rgba(168, 167, 167, 0.488);
+        padding: 2px;
+        padding-left: 5px;
+        border-radius: 3px;
+        font-weight: lighter;
     }
 
     p {
-        padding-bottom: 10px;
+        padding-left: 5px;
+        border-radius: 3px;
     }
+
+    .travel {
+        background-color: rgba(0, 128, 0, 0.323);
+        border-color: rgba(1, 98, 1, 0.641);
+    }
+
+    .other {
+        background-color:rgba(210, 105, 30, 0.363);
+        border-color: rgba(151, 71, 14, 0.775);
+    }
+
+    .photography {
+        background-color: rgba(107, 107, 107, 0.662);
+        border-color: rgba(137, 135, 135, 0.662);
+    }
+
+    .music {
+        background-color: rgba(60, 60, 215, 0.389);
+        border-color: rgba(26, 26, 173, 0.745);;
+    }
+
+    .computer {
+        background-color: rgba(0, 255, 255, 0.222);
+        border-color: rgba(26, 169, 169, 0.666);;
+    }
+
+    .food {
+        background-color: rgba(255, 0, 0, 0.184);
+        border-color: rgba(151, 5, 5, 0.471);;
+    }
+
+    .robotics {
+        background-color: rgba(192, 192, 192, 0.43);
+        border-color:  rgb(99, 94, 94);;
+    }
+
+    .item {
+        padding-bottom: 10px;
+
+    }
+
 
 
     .manageButtons {
@@ -48,7 +95,7 @@
                 &:hover {
                     background-color: rgba(61, 221, 202, 0.393);
                 }
-    
+
                 &:active {
                     background-color: rgba(42, 134, 123, 0.544);
                     border-color: rgba(81, 189, 177, 0.625) rgba(61, 221, 202, 0.755) rgba(61, 221, 202, 0.755) rgba(81, 189, 177, 0.625);

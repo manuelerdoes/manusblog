@@ -7,7 +7,7 @@ import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useBlogStore } from '../../../lib/blogStore';
 
 function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogContent,
-    setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode, 
+    setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode,
     setEditMode }) {
 
     const { currentUser } = useUserStore();
@@ -47,6 +47,9 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     content,
                 });
                 setCurrentBlogId(blogid);
+                setNewBlogContent("");
+                setNewBlogTitle("");
+                setNewBlogTags("");
             } else {
                 console.log("updatedoc")
                 await updateDoc(doc(db, "blogs", currentBlog.id), {

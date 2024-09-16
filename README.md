@@ -11,7 +11,7 @@ npm run dev
 - List of all blogs in blog view ✅
 - edit and delete my blogs ✅
 - security
-- startseit: aktuellster blog
+- startseit: aktuellster blog ✅
 - blog per url öffnen
 - markdown format
 - ABO/Erinnerung per Mail. Button bei Details

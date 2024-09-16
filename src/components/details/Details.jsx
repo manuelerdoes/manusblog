@@ -64,19 +64,23 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
               </div>
             </div>
           )}
-          <div className="author">
+          <div className="author item">
             <h3>created by</h3>
-            <p>{currentBlog.username}</p>
+            <p>👤{currentBlog.username}</p>
           </div>
-          <div className="timestamps">
+          <div className="{topic} item">
+            <h3>topic</h3>
+            <p className={currentBlog.topic}>{currentBlog.topic}</p>
+          </div>
+          <div className="tags item">
+            <h3>tags</h3>
+            <p>{currentBlog.tags}</p>
+          </div>
+          <div className="timestamps item">
             <h3>created on</h3>
             <p>{currentBlog.created}</p>
             <h3>last modified</h3>
             <p>{currentBlog.modified}</p>
-          </div>
-          <div className="{topic}">
-            <h3>topic</h3>
-            <p>{currentBlog.topic}</p>
           </div>
         </div>
       )

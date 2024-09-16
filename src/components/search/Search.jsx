@@ -6,8 +6,8 @@ import { debounce } from 'lodash';
 function Search({ setCurrentBlogId, setShowSearch }) {
     const [searchText, setSearchText] = useState("");
     const [filteredBlogs, setFilteredBlogs] = useState([]);
-    const [sortField, setSortField] = useState(null);
-    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' for ascending, 'desc' for descending
+    const [sortField, setSortField] = useState('created'); // Set 'created' as the default sort field
+    const [sortOrder, setSortOrder] = useState('desc'); // Default sort order to 'asc' (or 'desc' based on your preference)
 
     const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
 
@@ -35,20 +35,29 @@ function Search({ setCurrentBlogId, setShowSearch }) {
         setFilteredBlogs(sortedBlogs);
     };
 
+    // Default sorting by the "created" field
     useEffect(() => {
         const debouncedSearch = debounce((searchText) => {
-            if (searchText.trim() === "") {
-                setFilteredBlogs(currentBlogList);  // Show all blogs when search is empty
-            } else {
-                setFilteredBlogs(
-                    currentBlogList.filter((blog) =>
-                        blog.title.toLowerCase().includes(searchText.toLowerCase()) ||
-                        blog.username.toLowerCase().includes(searchText.toLowerCase()) ||
-                        blog.topic.toLowerCase().includes(searchText.toLowerCase()) ||
-                        blog.tags?.toLowerCase().includes(searchText.toLowerCase())
-                    )
+            let filtered = currentBlogList;
+            
+            if (searchText.trim() !== "") {
+                filtered = currentBlogList.filter((blog) =>
+                    blog.title.toLowerCase().includes(searchText.toLowerCase()) ||
+                    blog.username.toLowerCase().includes(searchText.toLowerCase()) ||
+                    blog.topic.toLowerCase().includes(searchText.toLowerCase()) ||
+                    blog.tags?.toLowerCase().includes(searchText.toLowerCase())
                 );
             }
+
+            // Sort the filtered list by creation date initially
+            const sortedByCreation = filtered.sort((a, b) => {
+                const aValue = a['created'] ? a['created'].toString().toLowerCase() : "";
+                const bValue = b['created'] ? b['created'].toString().toLowerCase() : "";
+
+                return sortOrder === 'asc' ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+            });
+
+            setFilteredBlogs(sortedByCreation);
         }, 300);
 
         debouncedSearch(searchText);  // Trigger debounced search
@@ -56,7 +65,7 @@ function Search({ setCurrentBlogId, setShowSearch }) {
         return () => {
             debouncedSearch.cancel();  // Cancel the debounce on cleanup
         };
-    }, [searchText, currentBlogList]);
+    }, [searchText, currentBlogList, sortOrder]); // Now dependent on sortOrder
 
     const renderSortIndicator = (field) => {
         if (sortField === field) {

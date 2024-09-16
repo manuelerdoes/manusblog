@@ -111,6 +111,10 @@
             padding: 2px;
             cursor: pointer;
             margin: 1px;
+
+        }
+        .selected {
+            border: 3px solid rgba(29, 29, 29, 0.748);
         }
 
         .phototopic {

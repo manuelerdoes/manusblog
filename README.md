@@ -7,12 +7,11 @@ npm run dev
 
 ## todo
 
-- blogListStore.js: only load 20 newest entries
-- BlogList.jsx: Searching and filtering
+- BlogList.jsx: Searching and filtering ✅
 - List of all blogs in blog view ✅
 - edit and delete my blogs ✅
 - security
 - startseit: aktuellster blog
 - blog per url öffnen
 - markdown format
-- 
+- ABO/Erinnerung per Mail. Button bei Details

@@ -86,6 +86,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
             }
 
             setTopic(selectedtopic);
+            setCurrentBlogId(currentBlog.id);
             setCreateMode(false);
 
         } catch (error) {

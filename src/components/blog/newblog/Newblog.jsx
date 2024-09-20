@@ -10,8 +10,9 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode,
     setEditMode }) {
 
-    const { currentUser } = useUserStore();
+        
     const { currentBlog } = useBlogStore();
+    const { currentUser } = useUserStore();
     const [loading, setLoading] = useState(false);
     const [blogId, setBlogId] = useState(null); // Hold blogId as state
 
@@ -38,7 +39,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                 console.log("Error creating initial blog document: ", error);
             });
         }
-    }, [editMode, currentUser, setCurrentBlogId, topic]);
+    }, [editMode, setCurrentBlogId]);
 
     const handleCancelButton = async () => {
         setCreateMode(false);

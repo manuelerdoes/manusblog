@@ -9,6 +9,7 @@ import { useUserStore } from '../../../lib/userStore';
 function UploadPictures() {
     const [isDragging, setIsDragging] = useState(false);
     const [imageUrlsToUpload, setImageUrlsToUpload] = useState([]); // For new images to upload
+    const [filesToUpload, setFilesToUpload] = useState([]); // Track actual files to upload
     const [serverImages, setServerImages] = useState([]); // For images already on the server
     const [loading, setLoading] = useState(false);
     const [copiedUrl, setCopiedUrl] = useState(null); // Track copied picture URL
@@ -53,7 +54,10 @@ function UploadPictures() {
     const handleFiles = (files) => {
         const uploadedFiles = Array.from(files);
         const urls = uploadedFiles.map(file => URL.createObjectURL(file));
-        setImageUrlsToUpload((prev) => [...prev, ...urls]); // Add the new image URLs for preview
+
+        // Store both URLs for preview and file objects for upload
+        setImageUrlsToUpload((prev) => [...prev, ...urls]);
+        setFilesToUpload((prev) => [...prev, ...uploadedFiles]); // Store actual files
     };
 
     const handleFileInputChange = (e) => {
@@ -62,13 +66,11 @@ function UploadPictures() {
     };
 
     const handleUploadClick = async () => {
-        if (!currentBlog || !currentUser || imageUrlsToUpload.length === 0) return;
+        if (!currentBlog || !currentUser || filesToUpload.length === 0) return;
 
         setLoading(true);
         try {
-            const uploadedFiles = fileInputRef.current.files;
-
-            const uploadPromises = Array.from(uploadedFiles).map(async (file) => {
+            const uploadPromises = filesToUpload.map(async (file) => {
                 // Upload image to Firebase Storage
                 const downloadUrl = await upload(file);
 
@@ -91,8 +93,9 @@ function UploadPictures() {
             // Add the newly uploaded image URLs to the server images
             setServerImages((prev) => [...prev, ...imageDownloadUrls]);
 
-            // Clear the selected images for upload
+            // Clear the selected images for upload and files to upload
             setImageUrlsToUpload([]);
+            setFilesToUpload([]);
 
         } catch (error) {
             console.error("Error uploading images: ", error);
@@ -147,7 +150,6 @@ function UploadPictures() {
 
             {/* List of already uploaded images from the server */}
             <div className="uploaded-images-container">
-                {/* <h3>Uploaded Images</h3> */}
                 {serverImages.length > 0 ? (
                     <div className="server-image-list">
                         {serverImages.map((url, index) => (

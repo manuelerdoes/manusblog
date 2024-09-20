@@ -10,8 +10,8 @@ npm run dev
 - BlogList.jsx: Searching and filtering ✅
 - List of all blogs in blog view ✅
 - edit and delete my blogs ✅
-- security
 - startseit: aktuellster blog ✅
-- blog per url öffnen
 - markdown format
+- blog per url öffnen
 - ABO/Erinnerung per Mail. Button bei Details
+- security

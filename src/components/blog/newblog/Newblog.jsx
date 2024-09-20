@@ -5,6 +5,8 @@ import { getFormattedDateTime } from '../../../lib/utils';
 import { auth, db } from '../../../lib/firebase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useBlogStore } from '../../../lib/blogStore';
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 
 function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogContent,
     setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode,
@@ -28,8 +30,9 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
         e.preventDefault();
         setLoading(true);
         const formData = new FormData(e.target);
-        const { title, selectedtopic, tags, content } = Object.fromEntries(formData);
+        const { title, selectedtopic, tags, rawcontent } = Object.fromEntries(formData);
         const blogid = title + "_" + getFormattedDateTime();
+        const content = rawcontent;
 
         try {
 
@@ -117,7 +120,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     </div>
                     <div className="setcontent item">
                         <label htmlFor="">Content:</label>
-                        <textarea placeholder='content' name="content" value={newBlogContent}
+                        <textarea placeholder='content' name="rawcontent" value={newBlogContent}
                             onChange={(e) => setNewBlogContent(e.target.value)} required></textarea>
                     </div>
                     <div className="newblogbuttons item">

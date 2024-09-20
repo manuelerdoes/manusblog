@@ -3,13 +3,15 @@ import "./blog.css"
 import Comments from './comments/Comments'
 import Newblog from './newblog/Newblog'
 import { useBlogStore } from '../../lib/blogStore';
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 
 
 
-const Blog = ({ createMode, setCreateMode, setTopic, topic, 
+const Blog = ({ createMode, setCreateMode, setTopic, topic,
   setCurrentBlogId, newBlogContent, setNewBlogContent,
   newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags,
-  editMode, setEditMode}) => {
+  editMode, setEditMode }) => {
 
 
   const { currentBlog } = useBlogStore();
@@ -19,7 +21,7 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
       !currentBlog ? (
         <div className="blog">
           <div className="blogtitle">
-            loading...
+            <p>loading...</p>
           </div>
         </div>
       ) : (
@@ -29,19 +31,19 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
           </div>
           <div className="blogcontent">
             <p>
-              {currentBlog.content}
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />
             </p>
           </div>
           <Comments />
         </div>
       )
     ) : (
-      <Newblog setCreateMode={setCreateMode} topic={topic} 
-      setTopic={setTopic} setCurrentBlogId={setCurrentBlogId}
-      newBlogTitle={newBlogTitle} setNewBlogTitle={setNewBlogTitle}
-      newBlogTags={newBlogTags} setNewBlogTags={setNewBlogTags}
-      newBlogContent={newBlogContent} setNewBlogContent={setNewBlogContent}
-      editMode={editMode} setEditMode={setEditMode}/>
+      <Newblog setCreateMode={setCreateMode} topic={topic}
+        setTopic={setTopic} setCurrentBlogId={setCurrentBlogId}
+        newBlogTitle={newBlogTitle} setNewBlogTitle={setNewBlogTitle}
+        newBlogTags={newBlogTags} setNewBlogTags={setNewBlogTags}
+        newBlogContent={newBlogContent} setNewBlogContent={setNewBlogContent}
+        editMode={editMode} setEditMode={setEditMode} />
     )
   )
 }

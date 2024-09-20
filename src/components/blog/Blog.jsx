@@ -30,9 +30,9 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
             <h2>{currentBlog.title}</h2>
           </div>
           <div className="blogcontent">
-            <p>
+            
               <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />
-            </p>
+            
           </div>
           <Comments />
         </div>

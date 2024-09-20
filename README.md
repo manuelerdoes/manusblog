@@ -11,7 +11,7 @@ npm run dev
 - List of all blogs in blog view ✅
 - edit and delete my blogs ✅
 - startseit: aktuellster blog ✅
-- markdown format
+- markdown format ✅
 - blog per url öffnen
 - ABO/Erinnerung per Mail. Button bei Details
-- security
+- security (überall wo firebase sachen passieren)

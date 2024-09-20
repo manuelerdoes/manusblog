@@ -6,6 +6,7 @@ import { useUserStore } from '../../lib/userStore';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import { useBlogListStore } from '../../lib/blogListStore';
+import UploadPictures from './uploadpictures/UploadPictures';
 
 const Details = ({ createMode, setCreateMode, setNewBlogTitle,
   setNewBlogTags, setNewBlogContent, setEditMode, setCurrentBlogId }) => {
@@ -14,6 +15,7 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
   const { currentUser } = useUserStore();
   const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
   const [showEditButton, setShowEditButton] = useState(false);
+  const [pictureList, setPictureList] = useState([]);
 
   useEffect(() => {
     if (currentUser?.id === currentBlog?.userid) {
@@ -39,11 +41,15 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
       } else {
         setCurrentBlogId(currentBlogList[0]?.id);
       }
-    
+
       await deleteDoc(doc(db, "blogs", currentBlog.id));
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  const handlePictureUpload = (e) => {
+    const files = e.target.files;
   }
 
   return (
@@ -86,7 +92,8 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
       )
     ) : (
       <div className="details">
-        <h3>new blog</h3>
+        <h3>Pictures</h3>
+        <UploadPictures />
       </div>
     )
   )

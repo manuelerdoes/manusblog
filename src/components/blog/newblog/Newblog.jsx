@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./newblog.css"
 import { useUserStore } from '../../../lib/userStore';
 import { getFormattedDateTime } from '../../../lib/utils';
 import { auth, db } from '../../../lib/firebase';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useBlogStore } from '../../../lib/blogStore';
-import DOMPurify from 'dompurify';
-import { marked } from 'marked';
 
 function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogContent,
     setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode,
@@ -15,75 +13,90 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     const { currentUser } = useUserStore();
     const { currentBlog } = useBlogStore();
     const [loading, setLoading] = useState(false);
+    const [blogId, setBlogId] = useState(null); // Hold blogId as state
 
+    // Create an empty blog document as soon as the component loads (for new blogs only)
+    useEffect(() => {
+        if (!editMode && currentUser) {
+            const newBlogId = `${currentUser.username}_${getFormattedDateTime()}`;
+            setBlogId(newBlogId); // Save blogId to state
 
+            // Create an empty blog document
+            setDoc(doc(db, "blogs", newBlogId), {
+                id: newBlogId,
+                userid: auth.currentUser.uid,
+                username: currentUser.username,
+                created: getFormattedDateTime(),
+                modified: getFormattedDateTime(),
+                title: "New Blog", // Initially empty
+                content: "", // Initially empty
+                tags: "",
+                topic: topic || "other", // Default topic
+            }).then(() => {
+                setCurrentBlogId(newBlogId); // Set blogId globally
+            }).catch((error) => {
+                console.log("Error creating initial blog document: ", error);
+            });
+        }
+    }, [editMode, currentUser, setCurrentBlogId, topic]);
 
-    const handleCancelButton = () => {
+    const handleCancelButton = async () => {
         setCreateMode(false);
         setNewBlogContent("");
         setNewBlogTitle("");
         setNewBlogTags("");
-        // setTopic("other");
-    }
+
+        // Optionally delete the empty blog document if blog creation is cancelled
+        if (blogId) {
+            await deleteDoc(doc(db, "blogs", blogId));
+        }
+    };
 
     const handleSaveButton = async (e) => {
         e.preventDefault();
         setLoading(true);
         const formData = new FormData(e.target);
         const { title, selectedtopic, tags, rawcontent } = Object.fromEntries(formData);
-        const blogid = title + "_" + getFormattedDateTime();
         const content = rawcontent;
 
         try {
-
             if (!editMode) {
-                console.log("setdoc")
-                await setDoc(doc(db, "blogs", blogid), {
-                    id: blogid,
+                // Update the initially created document with the final content
+                await updateDoc(doc(db, "blogs", blogId), {
                     title,
                     topic: selectedtopic,
                     tags,
-                    userid: auth.currentUser.uid,
-                    username: currentUser.username,
-                    created: getFormattedDateTime(),
-                    modified: getFormattedDateTime(),
                     content,
+                    modified: getFormattedDateTime(),
                 });
-                setCurrentBlogId(blogid);
                 setNewBlogContent("");
                 setNewBlogTitle("");
                 setNewBlogTags("");
             } else {
-                console.log("updatedoc")
+                // For editing mode, update the existing blog
                 await updateDoc(doc(db, "blogs", currentBlog.id), {
                     title,
                     topic: selectedtopic,
                     tags,
-                    userid: auth.currentUser.uid,
-                    username: currentUser.username,
-                    created: getFormattedDateTime(),
-                    modified: getFormattedDateTime(),
                     content,
+                    modified: getFormattedDateTime(),
                 });
-                setCurrentBlogId(currentBlog.id);
                 setEditMode(false);
             }
 
-            // alert("blog saved!")
             setTopic(selectedtopic);
-            // setCurrentBlogId(blogid);
             setCreateMode(false);
 
         } catch (error) {
-            console.log(error.message);
+            console.log("Error saving the blog:", error);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const handleSelection = (e) => {
         setTopic(e.target.value);
-    }
+    };
 
     return (
         !currentUser ? (
@@ -125,16 +138,16 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     </div>
                     <div className="newblogbuttons item">
                         <div className="cancelblog">
-                            <button onClick={handleCancelButton}>Cancel</button>
+                            <button type="button" onClick={handleCancelButton}>Cancel</button>
                         </div>
                         <div className="saveblog">
-                            <button>Save</button>
+                            <button type="submit">Save</button>
                         </div>
                     </div>
                 </form>
             </div>
         )
-    )
+    );
 }
 
-export default Newblog
+export default Newblog;

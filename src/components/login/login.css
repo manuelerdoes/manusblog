@@ -17,6 +17,29 @@
         text-decoration: underline;
         cursor: pointer;
       }
+
+      .forgotitle {
+        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        .backbutton {
+          position: absolute;
+          left: 0;
+          button {
+            padding: 7px;
+            width: 100%;
+            border: none;
+            background-color: rgba(6, 69, 6, 0.766);
+            color: white;
+
+            &:hover {
+              background-color:rgba(10, 45, 10, 0.766);
+            }
+          }
+        }
+      }
   
       form {
         display: flex;
@@ -65,12 +88,33 @@
           &:disabled {
             cursor: not-allowed;
             background-color: #1f8ff19c;
+
+            &:hover {
+              background-color: #1f8ff19c;
+            }
           }
 
           &:hover {
             background-color: #071d31;
           }
         }
+
+        .goback {
+          width: 100%;
+          button {
+            padding: 10px;
+            width: 100%;
+            background-color: rgba(6, 69, 6, 0.766);
+
+            &:hover {
+              background-color:rgba(10, 45, 10, 0.766);
+            }
+          }
+        }
+      }
+
+      .errormessage {
+        color: rgba(255, 0, 0, 0.838);
       }
     }
   

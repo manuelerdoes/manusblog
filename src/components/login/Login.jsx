@@ -10,7 +10,8 @@ function Login({ setShowUserstuff }) {
   const [loading, setLoading] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [registerError, setRegisterError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+  const [registerErrorMessage, setRegisterErrorMessage] = useState('');
   const [loginError, setLoginError] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [username, setUsername] = useState(''); // Track username input
@@ -37,7 +38,7 @@ function Login({ setShowUserstuff }) {
       setLoginError(false);
       setShowUserstuff(false);
     } catch (error) {
-      setErrorMessage(error.message);
+      setLoginErrorMessage(error.message);
       setLoginError(true);
     } finally {
       setLoading(false);
@@ -82,7 +83,7 @@ function Login({ setShowUserstuff }) {
       setRegisterSuccess(true);
       setRegisterError(false);
     } catch (error) {
-      setErrorMessage(error.message);
+      setRegisterErrorMessage(error.message);
       setRegisterError(true);
     } finally {
       setLoading(false);
@@ -110,6 +111,29 @@ function Login({ setShowUserstuff }) {
     return () => clearTimeout(debounceCheck);
   }, [username]);
 
+  // remove Firebase from error message
+  useEffect(() => {
+    if (loginErrorMessage.includes('Firebase: ')) {
+      setLoginErrorMessage(
+        loginErrorMessage
+          .replace('Firebase: ', '')  // Remove 'Firebase: '
+          .replace(/\s*\(.*?\/(.*?)\)\./, ': $1') // Add a colon and space before the captured part
+          .replace(/-/g, ' ') // Replace hyphens with spaces
+      );
+    }
+  }, [loginErrorMessage]);
+
+  useEffect(() => {
+    if (registerErrorMessage.includes('Firebase: ')) {
+      setRegisterErrorMessage(
+        registerErrorMessage
+          .replace('Firebase: ', '')  // Remove 'Firebase: '
+          .replace(/\s*\(.*?\/(.*?)\)\./, ': $1') // Add a colon and space before the captured part
+          .replace(/-/g, ' ') // Replace hyphens with spaces
+      );
+    }
+  }, [registerErrorMessage])
+
   return (
     <div className='login'>
       {!forgotPassword ? (
@@ -119,6 +143,12 @@ function Login({ setShowUserstuff }) {
             <input type='text' placeholder='Email' name='email' />
             <input type='password' placeholder='Password' name='password' />
             <button disabled={loading}>{loading ? 'loading' : 'Sign In'}</button>
+            {loginError && (
+              <div className='errormessage'>
+                <h3>Could not log in!</h3>
+                <span>{loginErrorMessage}</span>
+              </div>
+            )}
           </form>
           <span className='forgotpassword' onClick={() => setForgotPassword(true)}>
             forgot password
@@ -126,10 +156,15 @@ function Login({ setShowUserstuff }) {
         </div>
       ) : (
         <div className='item'>
-          <h2>Reset Password</h2>
+          <div className="forgotitle">
+            <div className="backbutton">
+              <button onClick={() => setForgotPassword(false)}>back</button>
+            </div>
+            <h2>Reset Password</h2>
+          </div>
           <form onSubmit={sendPasswordReset}>
             <input type='text' placeholder='Email' name='email' />
-            <button>Send</button>
+            <button type='submit'>Send</button>
           </form>
         </div>
       )}
@@ -167,9 +202,9 @@ function Login({ setShowUserstuff }) {
             </div>
           )}
           {registerError && (
-            <div className='registererror'>
+            <div className='errormessage'>
               <h3>Could not create user!</h3>
-              <span>{errorMessage}</span>
+              <span>{registerErrorMessage}</span>
             </div>
           )}
         </form>

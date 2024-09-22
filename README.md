@@ -12,6 +12,8 @@ npm run dev
 - edit and delete my blogs ✅
 - startseit: aktuellster blog ✅
 - markdown format ✅
+- But Picture Upload trotz nicht eingeloggt ✅
+- Username used verhindern
 - blog per url öffnen
 - ABO/Erinnerung per Mail. Button bei Details
 - security (überall wo firebase sachen passieren)

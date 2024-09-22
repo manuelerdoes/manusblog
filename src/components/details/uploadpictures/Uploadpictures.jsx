@@ -117,6 +117,9 @@ function UploadPictures() {
 
     return (
         <>
+        <div className="picturetitle">
+        <h3>Pictures</h3>
+        </div>
             <div
                 className={`dropzone ${isDragging ? 'dragging' : ''}`}
                 onDragEnter={handleDragEnter}

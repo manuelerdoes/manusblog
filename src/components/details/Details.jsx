@@ -15,16 +15,22 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
   const { currentUser } = useUserStore();
   const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
   const [showEditButton, setShowEditButton] = useState(false);
+  const [showUploadPics, setShowUploadPics] = useState(false);
   const [pictureList, setPictureList] = useState([]);
+  
+
 
   useEffect(() => {
-    if (currentUser?.id === currentBlog?.userid) {
+    if (currentUser?.id === currentBlog?.userid || currentUser?.id === "2XKfBCU9BYWK05cYCRdzVxAzRfZ2" /* Admin */) {
       setShowEditButton(true);
+      setShowUploadPics(true);
     } else {
       setShowEditButton(false);
       setCreateMode(false);
+      setShowUploadPics(false);
     }
   }, [currentUser, currentBlog]);
+
 
   const handleClickEditButton = () => {
     setCreateMode(true);
@@ -92,8 +98,9 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
       )
     ) : (
       <div className="details">
-        <h3>Pictures</h3>
-        <UploadPictures />
+        {(showUploadPics && (
+          <UploadPictures />
+        ))}
       </div>
     )
   )

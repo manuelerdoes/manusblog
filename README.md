@@ -5,7 +5,7 @@ Simple Blog for myself. It changes colours and backgrounds according to the topi
 npm run dev
 
 
-## todo
+## todo / Features
 
 - BlogList.jsx: Searching and filtering ✅
 - List of all blogs in blog view ✅
@@ -16,8 +16,8 @@ npm run dev
 - Username used verhindern ✅
 - blog per url öffnen ✅
 - ABO/Erinnerung per Mail. Button bei Details
-- security (überall wo firebase sachen passieren)
 - Disable Comments
+- blog-ids with blogtitle
 
 ## Security
 
@@ -26,3 +26,7 @@ Potential Problems:
 * many new blogs
 * big pictures 
 * many pictures   
+
+## Bugs
+
+* New Blog after cancel makes two new blogs.

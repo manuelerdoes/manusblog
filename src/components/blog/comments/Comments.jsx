@@ -59,7 +59,7 @@ function Comments() {
 
   return (
     <div className='comments'>
-      <div className="commentsheader">
+      <div className="commentsheader" onClick={toggleComments}>
         <h2>Comments</h2>
         <span onClick={toggleComments}>👁️</span>
       </div>

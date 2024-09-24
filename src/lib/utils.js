@@ -12,3 +12,9 @@ export function getFormattedDateTime() {
   
     return `${day}-${month}-${year}-${hour}:${minute}:${second}`;
   }
+
+export function getEpoch() {
+  const now = new Date();
+
+  return now.getTime();
+}

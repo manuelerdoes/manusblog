@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./newblog.css"
 import { useUserStore } from '../../../lib/userStore';
-import { getFormattedDateTime } from '../../../lib/utils';
+import { getFormattedDateTime, getEpoch } from '../../../lib/utils';
 import { auth, db } from '../../../lib/firebase';
 import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useBlogStore } from '../../../lib/blogStore';
@@ -19,7 +19,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     // Create an empty blog document as soon as the component loads (for new blogs only)
     useEffect(() => {
         if (!editMode && currentUser) {
-            const newBlogId = `${currentUser.username}_${getFormattedDateTime()}`;
+            const newBlogId = `${currentUser.username}_${getEpoch()}`;
             setBlogId(newBlogId); // Save blogId to state
 
             // Create an empty blog document
@@ -63,19 +63,24 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
         try {
             if (!editMode) {
                 // Update the initially created document with the final content
+                // const newBlogId = `${currentUser.username}_${title}_${getEpoch()}`;
                 await updateDoc(doc(db, "blogs", blogId), {
+                    // id: newBlogId,
                     title,
                     topic: selectedtopic,
                     tags,
                     content,
                     modified: getFormattedDateTime(),
                 });
+                // setBlogId(newBlogId); // Save blogId to state
                 setNewBlogContent("");
                 setNewBlogTitle("");
                 setNewBlogTags("");
             } else {
                 // For editing mode, update the existing blog
+                // const newBlogId = `${currentUser.username}_${title}_${getEpoch()}`;
                 await updateDoc(doc(db, "blogs", currentBlog.id), {
+                    // id: newBlogId,
                     title,
                     topic: selectedtopic,
                     tags,
@@ -84,7 +89,6 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                 });
                 setEditMode(false);
             }
-
             setTopic(selectedtopic);
             setCurrentBlogId(currentBlog.id);
             setCreateMode(false);

@@ -20,6 +20,7 @@
         align-items: center;
         justify-content: space-between;
         position: relative;
+        cursor: pointer;
 
         h2 {
             font-size: medium;
@@ -32,15 +33,17 @@
             right: 0;
             position: absolute;
             color: rgba(0, 0, 0, 0.691);
-            background-color: rgb(172, 172, 172);
-            border-radius: 3px;
+            /* background-color: rgb(172, 172, 172); */
+            background-origin: transparent;
+            border-radius: 100%;
             padding: 3px;
             cursor: pointer;
             padding-left: 8px;
             padding-right: 8px;
 
             &:hover {
-                background-color: rgb(115, 113, 113);
+                /* background-color: rgb(115, 113, 113); */
+
             }
         }
     }

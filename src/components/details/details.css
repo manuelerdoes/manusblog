@@ -62,6 +62,15 @@
 
     }
 
+    .author {
+
+        button {
+            margin-left: 5px;
+            background-color: transparent;
+            border: none;
+        }
+    }
+
 
 
     .manageButtons {
@@ -74,7 +83,7 @@
             background-color: rgba(221, 106, 61, 0.841);
             padding: 5px;
             color: rgb(0, 0, 0);
-            border-radius: 10px;
+            border-radius: 5px;
             border: 2px solid;
             border-color: rgb(248, 168, 110) rgb(222, 112, 33) rgb(222, 112, 33) rgb(248, 168, 110);
             cursor: pointer;

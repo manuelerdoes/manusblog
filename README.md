@@ -13,7 +13,16 @@ npm run dev
 - startseit: aktuellster blog ✅
 - markdown format ✅
 - But Picture Upload trotz nicht eingeloggt ✅
-- Username used verhindern
-- blog per url öffnen
+- Username used verhindern ✅
+- blog per url öffnen ✅
 - ABO/Erinnerung per Mail. Button bei Details
 - security (überall wo firebase sachen passieren)
+- Disable Comments
+
+## Security
+
+Potential Problems:
+* many requests on Login and registering
+* many new blogs
+* big pictures 
+* many pictures   

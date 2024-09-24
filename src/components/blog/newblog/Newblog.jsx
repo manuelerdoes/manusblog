@@ -10,7 +10,7 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode,
     setEditMode }) {
 
-        
+
     const { currentBlog } = useBlogStore();
     const { currentUser } = useUserStore();
     const [loading, setLoading] = useState(false);
@@ -133,9 +133,15 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                         <input type="text" placeholder='Tags' name="tags"
                             value={newBlogTags} onChange={(e) => setNewBlogTags(e.target.value)} />
                     </div>
+                    {/* <div className="disableComments item">
+                        <label htmlFor="disableComments" className='dcomLabel'>Disable Comments:
+                            <input type="checkbox" id="disableComments" name="disableComments" value="true" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </div> */}
                     <div className="setcontent item">
                         <label htmlFor="">Content:</label>
-                        <textarea placeholder='content' name="rawcontent" value={newBlogContent}
+                        <textarea placeholder='Lorem ipsum, dolor sit amet' name="rawcontent" value={newBlogContent}
                             onChange={(e) => setNewBlogContent(e.target.value)} required></textarea>
                     </div>
                     <div className="newblogbuttons item">

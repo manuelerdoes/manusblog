@@ -15,7 +15,7 @@ import { useUserStore } from "./lib/userStore";
 import { useBlogStore } from "./lib/blogStore";
 import { useBlogListStore } from "./lib/blogListStore";
 import Search from "./components/search/Search";
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
 const App = () => {
     const [topic, setTopic] = useState("other");
@@ -94,7 +94,8 @@ const App = () => {
     }, [styleScheme]);
 
     return (
-        <Router>
+        <>
+
             <div className='header'
                 style={{
                     backgroundColor: styleScheme.headerBGColor,
@@ -138,26 +139,22 @@ const App = () => {
                 ) : (
                     <>
                         <List setCurrentBlogId={setCurrentBlogId} />
-                        <Routes>
-                            <Route path="/:blogId" element={
-                                <Blog
-                                    createMode={createMode}
-                                    setCreateMode={setCreateMode}
-                                    setTopic={setTopic}
-                                    topic={topic}
-                                    currentBlogId={currentBlogId}
-                                    setCurrentBlogId={setCurrentBlogId}
-                                    newBlogTitle={newBlogTitle}
-                                    setNewBlogTitle={setNewBlogTitle}
-                                    newBlogTags={newBlogTags}
-                                    setNewBlogTags={setNewBlogTags}
-                                    newBlogContent={newBlogContent}
-                                    setNewBlogContent={setNewBlogContent}
-                                    editMode={editMode}
-                                    setEditMode={setEditMode}
-                                />
-                            } />
-                        </Routes>
+                        <Blog
+                            createMode={createMode}
+                            setCreateMode={setCreateMode}
+                            setTopic={setTopic}
+                            topic={topic}
+                            currentBlogId={currentBlogId}
+                            setCurrentBlogId={setCurrentBlogId}
+                            newBlogTitle={newBlogTitle}
+                            setNewBlogTitle={setNewBlogTitle}
+                            newBlogTags={newBlogTags}
+                            setNewBlogTags={setNewBlogTags}
+                            newBlogContent={newBlogContent}
+                            setNewBlogContent={setNewBlogContent}
+                            editMode={editMode}
+                            setEditMode={setEditMode}
+                        />
                         <Details
                             topic={topic}
                             setTopic={setTopic}
@@ -172,7 +169,7 @@ const App = () => {
                     </>
                 )}
             </div>
-        </Router>
+        </>
     );
 
 }

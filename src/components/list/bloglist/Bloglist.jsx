@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './bloglist.css';
 import { useBlogListStore } from '../../../lib/blogListStore';
 
-function Bloglist({ setCurrentBlogId }) {
+function Bloglist({ onBlogClick }) {
     const searchInputRef = useRef(null);
     const [showTopicFilter, setShowTopicFilter] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
@@ -72,10 +72,6 @@ function Bloglist({ setCurrentBlogId }) {
         setShowTopicFilter(false);
     }, [isMouseOver, searchActive]);
 
-    const handleBlogClick = (id) => {
-        setCurrentBlogId(id);
-    };
-
     return (
         <div className="bloglist"
             onMouseOver={() => setIsMouseOver(true)}
@@ -125,7 +121,7 @@ function Bloglist({ setCurrentBlogId }) {
 
             <div className="blogentries">
                 {filteredBlogs.map(blogentry => (
-                    <div key={blogentry.id} className={`item ${blogentry.topic}`} onClick={() => handleBlogClick(blogentry.id)}>
+                    <div key={blogentry.id} className={`item ${blogentry.topic}`} onClick={() => onBlogClick(blogentry.id)}>
                         <p>{blogentry.title}</p>
                     </div>
                 ))}

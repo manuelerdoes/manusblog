@@ -20,19 +20,22 @@
         justify-content: center;
         align-items: center;
         padding: 10px;
+
         label {
             display: flex;
             flex: 1;
         }
+
         input {
             flex: 3;
             padding: 10px;
             border-radius: 10px;
             width: 100%;
             background-color: rgba(255, 255, 224, 0.456);
-            border: 2px solid; /* Make sure to define border style */
+            border: 2px solid;
+            /* Make sure to define border style */
             border-color: grey darkgrey darkgrey grey;
-            font-size:small
+            font-size: small
         }
 
         select {
@@ -41,7 +44,7 @@
             font-size: large;
             background-color: rgba(255, 255, 224, 0.456);
             border: 2px solid;
-            border-color:  grey darkgrey darkgrey grey;
+            border-color: grey darkgrey darkgrey grey;
         }
     }
 
@@ -50,6 +53,7 @@
         flex-direction: column;
         gap: 10px;
         height: 400px;
+
         textarea {
             height: 100%;
             resize: none;
@@ -57,15 +61,14 @@
             border-radius: 10px;
             width: 100%;
             background-color: rgba(255, 255, 224, 0.456);
-            border: 2px solid; /* Make sure to define border style */
+            border: 2px solid;
+            /* Make sure to define border style */
             border-color: grey darkgrey darkgrey grey;
             font-size: small;
         }
     }
 
-    .settitle {
-
-    }
+    .settitle {}
 
     .settopic {
         display: flex;
@@ -84,7 +87,7 @@
             border-radius: 10px;
             border: 2px solid;
             border-color: lightgrey darkgrey darkgrey lightgrey;
-            background-color:rgba(192,192,192, 0.6);
+            background-color: rgba(192, 192, 192, 0.6);
 
             &:active {
                 background-color: rgba(164, 163, 163, 0.674);

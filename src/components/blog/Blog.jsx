@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import "./blog.css"
-import Comments from './comments/Comments'
-import Newblog from './newblog/Newblog'
+import React, { useEffect } from 'react';
+import "./blog.css";
+import Comments from './comments/Comments';
+import Newblog from './newblog/Newblog';
 import { useBlogStore } from '../../lib/blogStore';
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
+import { useParams, useNavigate } from 'react-router-dom';
 
-
-
-const Blog = ({ createMode, setCreateMode, setTopic, topic,
+const Blog = ({ 
+  createMode, setCreateMode, setTopic, topic,
   setCurrentBlogId, newBlogContent, setNewBlogContent,
   newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags,
-  editMode, setEditMode }) => {
+  editMode, setEditMode 
+}) => {
+  const { currentBlog, fetchBlogInfo } = useBlogStore();
+  const { blogId } = useParams(); // Get blogId from URL
+  const navigate = useNavigate();
 
-
-  const { currentBlog } = useBlogStore();
+  // Fetch blog info whenever the blogId from the URL changes
+  useEffect(() => {
+    if (blogId) {
+      setCurrentBlogId(blogId); // Set the current blog ID to the one from the URL
+      fetchBlogInfo(blogId); // Fetch blog details
+    }
+  }, [blogId, setCurrentBlogId, fetchBlogInfo]);
 
   return (
     !createMode ? (
@@ -30,22 +39,28 @@ const Blog = ({ createMode, setCreateMode, setTopic, topic,
             <h2>{currentBlog.title}</h2>
           </div>
           <div className="blogcontent">
-            
-              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />
-            
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />
           </div>
           <Comments />
         </div>
       )
     ) : (
-      <Newblog setCreateMode={setCreateMode} topic={topic}
-        setTopic={setTopic} setCurrentBlogId={setCurrentBlogId}
-        newBlogTitle={newBlogTitle} setNewBlogTitle={setNewBlogTitle}
-        newBlogTags={newBlogTags} setNewBlogTags={setNewBlogTags}
-        newBlogContent={newBlogContent} setNewBlogContent={setNewBlogContent}
-        editMode={editMode} setEditMode={setEditMode} />
+      <Newblog 
+        setCreateMode={setCreateMode} 
+        topic={topic}
+        setTopic={setTopic} 
+        setCurrentBlogId={setCurrentBlogId}
+        newBlogTitle={newBlogTitle} 
+        setNewBlogTitle={setNewBlogTitle}
+        newBlogTags={newBlogTags} 
+        setNewBlogTags={setNewBlogTags}
+        newBlogContent={newBlogContent} 
+        setNewBlogContent={setNewBlogContent}
+        editMode={editMode} 
+        setEditMode={setEditMode} 
+      />
     )
-  )
-}
+  );
+};
 
-export default Blog
+export default Blog;

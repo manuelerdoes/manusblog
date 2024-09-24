@@ -16,7 +16,7 @@
 
 .blogtitle {
     padding-left: 25px;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
     border-bottom: 2px solid rgba(131, 130, 130, 0.312);
     h2 {
         text-shadow: 3px 2px 5px rgba(133, 133, 133, 0.772);
@@ -50,15 +50,18 @@
         font-size: medium;
         margin-bottom: 7px;
     }
-    li {
-        margin-left: 20px;
-        list-style-type: square;
-    }
-
+    
     ol, ul {
         margin-bottom: 16px;
     }
-
+    ul {
+        list-style-type: square;
+        margin-left: 20px;
+    }
+    li {
+        margin-left: 25px;
+    }
+    
     p {
         margin-bottom: 10px;
     }
@@ -67,4 +70,33 @@
         width: 100%;
     }
         
+    table {
+        width: 80%;
+        padding: 1px;
+        border-spacing: 1px 3px;
+        /* Increase vertical space between rows */
+        border-collapse: separate;
+        /* Ensure spacing works */
+        border: none;
+
+        th,
+        td {
+            border-radius: 1px;
+            padding: 3px;
+            text-align: left;
+            background-color: rgba(151, 149, 149, 0.61);
+        }
+
+        th {
+            cursor: pointer;
+            position: relative;
+            padding-right: 10px;
+            background-color: rgba(73, 73, 73, 0.808);
+        }
+        th::after {
+            content: "";
+            position: absolute;
+            right: 5px;
+        }
+    }
 }

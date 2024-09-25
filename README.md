@@ -15,8 +15,8 @@ npm run dev
 - But Picture Upload trotz nicht eingeloggt ✅
 - Username used verhindern ✅
 - blog per url öffnen ✅
+- Disable Comments ✅
 - ABO/Erinnerung per Mail. Button bei Details
-- Disable Comments
 - blog-ids with blogtitle
 
 ## Security

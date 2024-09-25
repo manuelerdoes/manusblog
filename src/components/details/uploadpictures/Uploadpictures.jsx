@@ -116,10 +116,10 @@ function UploadPictures() {
     };
 
     return (
-        <>
-        <div className="picturetitle">
-        <h3>Pictures</h3>
-        </div>
+        <div className='uploadPicturesContainer'>
+            <div className="picturetitle">
+                <h3>Pictures</h3>
+            </div>
             <div
                 className={`dropzone ${isDragging ? 'dragging' : ''}`}
                 onDragEnter={handleDragEnter}
@@ -173,7 +173,7 @@ function UploadPictures() {
                     <p>No images uploaded yet.</p>
                 )}
             </div>
-        </>
+        </div>
     );
 }
 

@@ -95,4 +95,37 @@
             }
         }
     }
+
+    .setoptions {
+
+        .optionsbuttons {
+            flex: 3;
+            display: flex;
+            gap: 20px;
+
+            button {
+                padding: 10px;
+                border-radius: 10px;
+                border: 2px solid;
+                background-color: rgba(255, 0, 0, 0.475);
+                border-color: rgb(203, 99, 99) rgb(161, 35, 35) rgb(161, 35, 35) rgb(203, 99, 99);
+
+                &:active {
+                    background-color: rgba(137, 15, 15, 0.735);
+                    border-color: rgb(161, 35, 35) rgb(203, 99, 99) rgb(203, 99, 99) rgb(161, 35, 35);
+                }
+            }
+
+            .publicblog, .disablecomments {            
+                background-color: rgba(0, 255, 0, 0.475);
+                border-color: rgb(99, 203, 99) rgb(35, 161, 35) rgb(35, 161, 35) rgb(99, 203, 99);
+
+                &:active {
+                    background-color: rgba(15, 137, 15, 0.735);
+                    border-color: rgb(35, 161, 35) rgb(99, 203, 99) rgb(99, 203, 99) rgb(35, 161, 35);
+                }
+            }
+        }
+    }
+
 }

@@ -58,6 +58,7 @@ function Comments() {
 
 
   return (
+    !currentBlog.disableComments ? (
     <div className='comments'>
       <div className="commentsheader" onClick={toggleComments}>
         <h2>Comments</h2>
@@ -97,6 +98,11 @@ function Comments() {
         </div>
       )}
     </div>
+    ) : (
+      <div className="comments">
+        <p>comments disabled</p>
+      </div>
+    )
   )
 }
 

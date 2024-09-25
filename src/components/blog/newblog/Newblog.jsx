@@ -15,6 +15,9 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     const { currentUser } = useUserStore();
     const [loading, setLoading] = useState(false);
     const [blogId, setBlogId] = useState(null); // Hold blogId as state
+    const [blogPublic, setBlogPublic] = useState(currentBlog?.isPublic);
+    const [disableComments, setDisableComments] = useState(currentBlog?.disableComments);
+
 
     // Create an empty blog document as soon as the component loads (for new blogs only)
     useEffect(() => {
@@ -33,6 +36,8 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                 content: "", // Initially empty
                 tags: "",
                 topic: topic || "other", // Default topic
+                isPublic: false,
+                disableComments: false,
             }).then(() => {
                 setCurrentBlogId(newBlogId); // Set blogId globally
             }).catch((error) => {
@@ -71,6 +76,8 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     tags,
                     content,
                     modified: getFormattedDateTime(),
+                    isPublic: blogPublic,
+                    disableComments,
                 });
                 // setBlogId(newBlogId); // Save blogId to state
                 setNewBlogContent("");
@@ -86,6 +93,8 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     tags,
                     content,
                     modified: getFormattedDateTime(),
+                    isPublic: blogPublic,
+                    disableComments,
                 });
                 setEditMode(false);
             }
@@ -103,6 +112,16 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     const handleSelection = (e) => {
         setTopic(e.target.value);
     };
+
+    const handlePublicButton = (e) => {
+        setBlogPublic(!blogPublic);
+    }
+
+    const handleCommentButton = (e) => {
+        setDisableComments(!disableComments);
+    }
+
+
 
     return (
         !currentUser ? (
@@ -137,12 +156,15 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                         <input type="text" placeholder='Tags' name="tags"
                             value={newBlogTags} onChange={(e) => setNewBlogTags(e.target.value)} />
                     </div>
-                    {/* <div className="disableComments item">
-                        <label htmlFor="disableComments" className='dcomLabel'>Disable Comments:
-                            <input type="checkbox" id="disableComments" name="disableComments" value="true" />
-                            <span class="checkmark"></span>
-                        </label>
-                    </div> */}
+                    <div className="setoptions item">
+                        <label htmlFor="">Options:</label>
+                        <div className="optionsbuttons">
+                            <button type="button" className={`${blogPublic ? 'publicblog' : ''}`} 
+                            onClick={handlePublicButton}>blog public: {String(blogPublic)}</button>
+                            <button type="button" className={`${disableComments ? 'disablecomments' : ''}`} 
+                            onClick={handleCommentButton}>disable comments: {String(disableComments)}</button>
+                        </div>
+                    </div>
                     <div className="setcontent item">
                         <label htmlFor="">Content:</label>
                         <textarea placeholder='Lorem ipsum, dolor sit amet' name="rawcontent" value={newBlogContent}

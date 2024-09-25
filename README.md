@@ -22,7 +22,7 @@ npm run dev
 ## Security
 
 Potential Problems:
-* many requests on Login and registering
+* many requests on Login and registering -> Firebase setting: max 100 new users per hour
 * many new blogs
 * big pictures 
 * many pictures   
@@ -30,3 +30,5 @@ Potential Problems:
 ## Bugs
 
 * New Blog after cancel makes two new blogs.
+* Comments: each child of list should have unique key prop, error message.
+

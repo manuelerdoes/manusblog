@@ -18,6 +18,7 @@ function UploadPictures() {
     const temporaryBlogId = context.temporaryBlogId;
     const serverImages = context.serverImages;
     const setServerImages = context.setServerImages;
+    const createMode = context.createMode;
 
 
     const { currentBlog } = useBlogStore(); // Get the current blog ID
@@ -25,15 +26,17 @@ function UploadPictures() {
 
     // Fetch pictures related to the current blog from Firestore
     useEffect(() => {
-        const fetchPictures = async () => {
-            if (!temporaryBlogId) return;
-            const q = query(collection(db, 'pictures'), where('blogid', '==', temporaryBlogId));
-            const querySnapshot = await getDocs(q);
-            const urls = querySnapshot.docs.map(doc => doc.data().imageURL);
-            setServerImages(urls); // Set the server images
-        };
-        fetchPictures();
-    }, [currentBlog]);
+        if (createMode) {
+            const fetchPictures = async () => {
+                if (!temporaryBlogId) return;
+                const q = query(collection(db, 'pictures'), where('blogid', '==', temporaryBlogId));
+                const querySnapshot = await getDocs(q);
+                const urls = querySnapshot.docs.map(doc => doc.data().imageURL);
+                setServerImages(urls); // Set the server images
+            };
+            fetchPictures();
+        }
+    }, [currentBlog, createMode, temporaryBlogId]);
 
     const handleDragEnter = (e) => {
         e.preventDefault();

@@ -106,6 +106,11 @@ const App = () => {
         };
     }, [styleScheme]);
 
+    const handleNewBlogButton = () => {
+        setCreateMode(!createMode);
+        setEditMode(false);
+    };
+
 
     return (
         <>
@@ -122,7 +127,7 @@ const App = () => {
                         color: styleScheme.headerTextColor,
                         borderColor: styleScheme.headerBorderColor
                     }}
-                    onClick={() => setCreateMode(!createMode)}>New Blog</button>
+                    onClick={handleNewBlogButton}>New Blog</button>
                 <Title />
                 <button
                     style={{

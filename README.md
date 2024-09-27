@@ -33,4 +33,5 @@ Potential Problems:
 * New Blog after cancel makes two new blogs. ✅
 * Comments: each child of list should have unique key prop, error message. ✅
 * sometimes when the website is loading new, loading... appears instead of a blog
+* searchfield does not shrink with website
 

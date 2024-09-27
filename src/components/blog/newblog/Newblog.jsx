@@ -49,6 +49,8 @@ function Newblog() {
         setNewBlogContent("");
         setNewBlogTitle("");
         setNewBlogTags("");
+        setServerImages([]);
+        setTemporaryBlogId(null);
         setNewBlogPublic(false);
         setNewDisableComments(false);
     };
@@ -102,6 +104,7 @@ function Newblog() {
                 setEditMode(false);
             }
             setServerImages([]);
+            setTemporaryBlogId(null);
             setTopic(selectedtopic);
             setCurrentBlogId(currentBlog.id);
             setCreateMode(false);

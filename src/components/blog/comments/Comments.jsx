@@ -71,8 +71,8 @@ function Comments() {
               <h3>no comments</h3>
             </div>
           ) : (
-            currentBlog?.comments.map((comment) => (
-              <div className="commentcontainer">
+            currentBlog?.comments.map((comment, index) => (
+              <div key={comment.id || index} className="commentcontainer">
                 <div className="commentuser">
                   <h3>{comment?.username}</h3>
                 </div>

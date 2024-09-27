@@ -16,8 +16,8 @@ npm run dev
 - Username used verhindern ✅
 - blog per url öffnen ✅
 - Disable Comments ✅
+- blog-ids with blogtitle ✅
 - ABO/Erinnerung per Mail. Button bei Details
-- blog-ids with blogtitle
 
 ## Security
 
@@ -29,6 +29,6 @@ Potential Problems:
 
 ## Bugs
 
-* New Blog after cancel makes two new blogs.
-* Comments: each child of list should have unique key prop, error message.
+* New Blog after cancel makes two new blogs. ✅
+* Comments: each child of list should have unique key prop, error message. ✅
 

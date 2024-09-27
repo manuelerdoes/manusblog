@@ -18,6 +18,7 @@ npm run dev
 - Disable Comments ✅
 - blog-ids with blogtitle ✅
 - ABO/Erinnerung per Mail. Button bei Details
+- dont show non-public blogs to users that didnt create it
 
 ## Security
 
@@ -31,4 +32,5 @@ Potential Problems:
 
 * New Blog after cancel makes two new blogs. ✅
 * Comments: each child of list should have unique key prop, error message. ✅
+* sometimes when the website is loading new, loading... appears instead of a blog
 

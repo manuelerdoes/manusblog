@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import "./blog.css";
 import Comments from './comments/Comments';
 import Newblog from './newblog/Newblog';
@@ -6,16 +6,15 @@ import { useBlogStore } from '../../lib/blogStore';
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { useParams, useNavigate } from 'react-router-dom';
+import { StoreContext } from '../../lib/store';
 
-const Blog = ({ 
-  createMode, setCreateMode, setTopic, topic,
-  setCurrentBlogId, newBlogContent, setNewBlogContent,
-  newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags,
-  editMode, setEditMode 
-}) => {
+const Blog = () => {
   const { currentBlog, fetchBlogInfo } = useBlogStore();
   const { blogId } = useParams(); // Get blogId from URL
   const navigate = useNavigate();
+  const context = useContext(StoreContext);
+  const createMode = context.createMode;
+  const setCurrentBlogId = context.setCurrentBlogId;
 
   // Fetch blog info whenever the blogId from the URL changes
   useEffect(() => {
@@ -45,20 +44,7 @@ const Blog = ({
         </div>
       )
     ) : (
-      <Newblog 
-        setCreateMode={setCreateMode} 
-        topic={topic}
-        setTopic={setTopic} 
-        setCurrentBlogId={setCurrentBlogId}
-        newBlogTitle={newBlogTitle} 
-        setNewBlogTitle={setNewBlogTitle}
-        newBlogTags={newBlogTags} 
-        setNewBlogTags={setNewBlogTags}
-        newBlogContent={newBlogContent} 
-        setNewBlogContent={setNewBlogContent}
-        editMode={editMode} 
-        setEditMode={setEditMode} 
-      />
+      <Newblog />
     )
   );
 };

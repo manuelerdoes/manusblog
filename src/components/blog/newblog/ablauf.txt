@@ -1,0 +1,16 @@
+Blog
+    createMode off
+        currentBlog nicht leer -> zeige Blog
+        currentBlog leer -> loading...
+    creatMode on
+        zeige Newblog
+            handleSaveButton
+                editMode false -> setze currentBlogId, erstelle neuen Blogeintrag
+                editMode true -> updateDoc, setze editMode false
+
+
+
+
+
+
+Details -> click editButton -> createMode on, editMode on

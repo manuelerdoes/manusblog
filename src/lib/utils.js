@@ -1,3 +1,6 @@
+
+import { query, collection, where, getDocs, updateDoc } from 'firebase/firestore';
+import { db } from './firebase';
 export function getFormattedDateTime() {
     const now = new Date();
   
@@ -17,4 +20,14 @@ export function getEpoch() {
   const now = new Date();
 
   return now.getTime();
+}
+
+// utils.js
+export async function updatePictureBlogIds(oldBlogId, newBlogId) {
+  // console.log("running updatePictureBlogIds: " + oldBlogId + " " + newBlogId);
+  const q = query(collection(db, 'pictures'), where('blogid', '==', oldBlogId));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.docs.forEach(async (doc) => {
+    await updateDoc(doc.ref, { blogid: newBlogId });
+  });
 }

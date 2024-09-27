@@ -4,7 +4,7 @@ import Details from "./components/details/Details";
 import Userinfo from "./components/userinfo/Userinfo";
 import Title from "./components/title/Title";
 import Menu from "./components/menu/Menu";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getStyleScheme } from "./styles";
 import Login from "./components/login/Login";
 import Usermanager from "./components/usermanager/Usermanager";
@@ -16,19 +16,30 @@ import { useBlogStore } from "./lib/blogStore";
 import { useBlogListStore } from "./lib/blogListStore";
 import Search from "./components/search/Search";
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { StoreContext, StoreProvider } from "./lib/store";
 
 const App = () => {
-    const [topic, setTopic] = useState("other");
+    const context = useContext(StoreContext);
+    const showAbout = context.showAbout;
+    const setShowAbout = context.setShowAbout;
+    const editMode = context.editMode;
+    const setEditMode = context.setEditMode;
+    const createMode = context.createMode;
+    const setCreateMode = context.setCreateMode;
+    const showUserstuff = context.showUserstuff;
+    const setShowUserstuff = context.setShowUserstuff;
+    const showSearch = context.showSearch;
+    const setShowSearch = context.setShowSearch;
+    const currentBlogId = context.currentBlogId;
+    const setCurrentBlogId = context.setCurrentBlogId;
+    const setNewBlogTitle = context.setNewBlogTitle;
+    const setNewBlogTags = context.setNewBlogTags;
+    const setNewBlogContent = context.setNewBlogContent;
+    const setNewBlogPublic = context.setNewBlogPublic;
+    const setNewDisableComments = context.setNewDisableComments;
+    const topic = context.topic;
+    const setTopic = context.setTopic;
     const styleScheme = getStyleScheme(topic);
-    const [showUserstuff, setShowUserstuff] = useState(false);
-    const [showAbout, setShowAbout] = useState(false);
-    const [createMode, setCreateMode] = useState(false);
-    const [currentBlogId, setCurrentBlogId] = useState("welcome");
-    const [newBlogTitle, setNewBlogTitle] = useState("");
-    const [newBlogTags, setNewBlogTags] = useState("");
-    const [newBlogContent, setNewBlogContent] = useState("");
-    const [editMode, setEditMode] = useState(false);
-    const [showSearch, setShowSearch] = useState(false); // AllBlogs
 
     const { currentUser, fetchUserInfo } = useUserStore();
     const { currentBlog, fetchBlogInfo } = useBlogStore();
@@ -70,6 +81,8 @@ const App = () => {
             setNewBlogTitle("");
             setNewBlogTags("");
             setNewBlogContent("");
+            setNewBlogPublic(false);
+            setNewDisableComments(false);
         }
     }, [editMode]);
 
@@ -93,8 +106,9 @@ const App = () => {
         };
     }, [styleScheme]);
 
+
     return (
-        <Router>
+        <>
             <div className='header'
                 style={{
                     backgroundColor: styleScheme.headerBGColor,
@@ -108,7 +122,7 @@ const App = () => {
                         color: styleScheme.headerTextColor,
                         borderColor: styleScheme.headerBorderColor
                     }}
-                    onClick={() => setCreateMode(true)}>New Blog</button>
+                    onClick={() => setCreateMode(!createMode)}>New Blog</button>
                 <Title />
                 <button
                     style={{
@@ -140,39 +154,14 @@ const App = () => {
                         <List setCurrentBlogId={setCurrentBlogId} />
                         <Routes>
                             <Route path="/:blogId" element={
-                                <Blog
-                                    createMode={createMode}
-                                    setCreateMode={setCreateMode}
-                                    setTopic={setTopic}
-                                    topic={topic}
-                                    currentBlogId={currentBlogId}
-                                    setCurrentBlogId={setCurrentBlogId}
-                                    newBlogTitle={newBlogTitle}
-                                    setNewBlogTitle={setNewBlogTitle}
-                                    newBlogTags={newBlogTags}
-                                    setNewBlogTags={setNewBlogTags}
-                                    newBlogContent={newBlogContent}
-                                    setNewBlogContent={setNewBlogContent}
-                                    editMode={editMode}
-                                    setEditMode={setEditMode}
-                                />
+                                <Blog />
                             } />
                         </Routes>
-                        <Details
-                            topic={topic}
-                            setTopic={setTopic}
-                            createMode={createMode}
-                            setCreateMode={setCreateMode}
-                            setNewBlogTitle={setNewBlogTitle}
-                            setNewBlogTags={setNewBlogTags}
-                            setNewBlogContent={setNewBlogContent}
-                            setEditMode={setEditMode}
-                            setCurrentBlogId={setCurrentBlogId}
-                        />
+                        <Details />
                     </>
                 )}
             </div>
-        </Router>
+        </>
     );
 
 }

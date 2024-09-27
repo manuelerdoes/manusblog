@@ -1,19 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import './UploadPictures.css'; // Separate CSS file
 import upload from "../../../lib/upload"; // Import the provided upload function
 import { db } from '../../../lib/firebase'; // Firestore DB
 import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore'; // Firestore methods
 import { useBlogStore } from '../../../lib/blogStore';
 import { useUserStore } from '../../../lib/userStore';
+import { StoreContext } from '../../../lib/store';
 
 function UploadPictures() {
+    const context = useContext(StoreContext);
     const [isDragging, setIsDragging] = useState(false);
     const [imageUrlsToUpload, setImageUrlsToUpload] = useState([]); // For new images to upload
     const [filesToUpload, setFilesToUpload] = useState([]); // Track actual files to upload
-    const [serverImages, setServerImages] = useState([]); // For images already on the server
     const [loading, setLoading] = useState(false);
     const [copiedUrl, setCopiedUrl] = useState(null); // Track copied picture URL
     const fileInputRef = useRef(null);
+    const temporaryBlogId = context.temporaryBlogId;
+    const serverImages = context.serverImages;
+    const setServerImages = context.setServerImages;
+
 
     const { currentBlog } = useBlogStore(); // Get the current blog ID
     const { currentUser } = useUserStore(); // Get the current user
@@ -21,8 +26,8 @@ function UploadPictures() {
     // Fetch pictures related to the current blog from Firestore
     useEffect(() => {
         const fetchPictures = async () => {
-            if (!currentBlog?.id) return;
-            const q = query(collection(db, 'pictures'), where('blogid', '==', currentBlog.id));
+            if (!temporaryBlogId) return;
+            const q = query(collection(db, 'pictures'), where('blogid', '==', temporaryBlogId));
             const querySnapshot = await getDocs(q);
             const urls = querySnapshot.docs.map(doc => doc.data().imageURL);
             setServerImages(urls); // Set the server images
@@ -81,7 +86,7 @@ function UploadPictures() {
                 await setDoc(doc(db, 'pictures', pictureId), {
                     imageURL: downloadUrl, // Firebase Storage URL
                     userid: currentUser.id, // User ID from store
-                    blogid: currentBlog.id, // Blog ID from store
+                    blogid: temporaryBlogId, // Blog ID from store
                     timestamp: new Date().toISOString(), // Upload timestamp
                 });
 

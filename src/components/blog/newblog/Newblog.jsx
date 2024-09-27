@@ -1,61 +1,56 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import "./newblog.css"
 import { useUserStore } from '../../../lib/userStore';
-import { getFormattedDateTime, getEpoch } from '../../../lib/utils';
+import { getFormattedDateTime, getEpoch, updatePictureBlogIds } from '../../../lib/utils';
 import { auth, db } from '../../../lib/firebase';
 import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useBlogStore } from '../../../lib/blogStore';
+import { StoreContext } from '../../../lib/store';
 
-function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogContent,
-    setNewBlogContent, newBlogTitle, setNewBlogTitle, newBlogTags, setNewBlogTags, editMode,
-    setEditMode }) {
 
+function Newblog() {
 
     const { currentBlog } = useBlogStore();
     const { currentUser } = useUserStore();
+    const context = useContext(StoreContext);
+    const setCurrentBlogId = context.setCurrentBlogId;
     const [loading, setLoading] = useState(false);
-    const [blogId, setBlogId] = useState(null); // Hold blogId as state
-    const [blogPublic, setBlogPublic] = useState(currentBlog?.isPublic);
-    const [disableComments, setDisableComments] = useState(currentBlog?.disableComments);
+    const temporaryBlogId = context.temporaryBlogId;
+    const setTemporaryBlogId = context.setTemporaryBlogId;
+    const createMode = context.createMode;
+    const setCreateMode = context.setCreateMode;
+    const editMode = context.editMode;
+    const setEditMode = context.setEditMode;
+    const newBlogTitle = context.newBlogTitle;
+    const setNewBlogTitle = context.setNewBlogTitle;
+    const newBlogTags = context.newBlogTags;
+    const setNewBlogTags = context.setNewBlogTags;
+    const newBlogContent = context.newBlogContent;
+    const setNewBlogContent = context.setNewBlogContent;
+    const topic = context.topic;
+    const setTopic = context.setTopic;
+    const newBlogPublic = context.newBlogPublic;
+    const setNewBlogPublic = context.setNewBlogPublic;
+    const newDisableComments = context.newDisableComments;
+    const setNewDisableComments = context.setNewDisableComments;
+    const setServerImages = context.setServerImages;
 
-
-    // Create an empty blog document as soon as the component loads (for new blogs only)
     useEffect(() => {
-        if (!editMode && currentUser) {
+        if (createMode && !editMode && currentUser) {
             const newBlogId = `${currentUser.username}_${getEpoch()}`;
-            setBlogId(newBlogId); // Save blogId to state
-
-            // Create an empty blog document
-            setDoc(doc(db, "blogs", newBlogId), {
-                id: newBlogId,
-                userid: auth.currentUser.uid,
-                username: currentUser.username,
-                created: getFormattedDateTime(),
-                modified: getFormattedDateTime(),
-                title: "New Blog", // Initially empty
-                content: "", // Initially empty
-                tags: "",
-                topic: topic || "other", // Default topic
-                isPublic: false,
-                disableComments: false,
-            }).then(() => {
-                setCurrentBlogId(newBlogId); // Set blogId globally
-            }).catch((error) => {
-                console.log("Error creating initial blog document: ", error);
-            });
+            setTemporaryBlogId(newBlogId);
+        } else if (createMode && editMode && currentUser) {
+            setTemporaryBlogId(currentBlog?.id); // to make uploadpictures work
         }
-    }, [editMode, setCurrentBlogId]);
+    }, [createMode, editMode]);
 
     const handleCancelButton = async () => {
         setCreateMode(false);
         setNewBlogContent("");
         setNewBlogTitle("");
         setNewBlogTags("");
-
-        // Optionally delete the empty blog document if blog creation is cancelled
-        if (blogId) {
-            await deleteDoc(doc(db, "blogs", blogId));
-        }
+        setNewBlogPublic(false);
+        setNewDisableComments(false);
     };
 
     const handleSaveButton = async (e) => {
@@ -67,17 +62,25 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
 
         try {
             if (!editMode) {
-                // Update the initially created document with the final content
-                // const newBlogId = `${currentUser.username}_${title}_${getEpoch()}`;
-                await updateDoc(doc(db, "blogs", blogId), {
-                    // id: newBlogId,
+                const newBlogId = `${currentUser.username}_${title}_${getEpoch().toString().slice(-3)}`;
+                
+                setDoc(doc(db, "blogs", newBlogId), {
+                    id: newBlogId,
+                    userid: auth.currentUser.uid,
                     title,
-                    topic: selectedtopic,
-                    tags,
-                    content,
+                    username: currentUser.username,
+                    created: getFormattedDateTime(),
                     modified: getFormattedDateTime(),
-                    isPublic: blogPublic,
-                    disableComments,
+                    content,
+                    tags,
+                    topic: selectedtopic,
+                    isPublic: newBlogPublic,
+                    disableComments: newDisableComments,
+                }).then(() => {
+                    updatePictureBlogIds(temporaryBlogId, newBlogId);
+                    setCurrentBlogId(newBlogId);
+                }).catch((error) => {
+                    console.log("Error creating initial blog document: ", error);
                 });
                 // setBlogId(newBlogId); // Save blogId to state
                 setNewBlogContent("");
@@ -93,11 +96,12 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     tags,
                     content,
                     modified: getFormattedDateTime(),
-                    isPublic: blogPublic,
-                    disableComments,
+                    isPublic: newBlogPublic,
+                    disableComments: newDisableComments,
                 });
                 setEditMode(false);
             }
+            setServerImages([]);
             setTopic(selectedtopic);
             setCurrentBlogId(currentBlog.id);
             setCreateMode(false);
@@ -114,11 +118,11 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
     };
 
     const handlePublicButton = (e) => {
-        setBlogPublic(!blogPublic);
+        setNewBlogPublic(!newBlogPublic);
     }
 
     const handleCommentButton = (e) => {
-        setDisableComments(!disableComments);
+        setNewDisableComments(!newDisableComments);
     }
 
 
@@ -159,10 +163,10 @@ function Newblog({ setCreateMode, setTopic, topic, setCurrentBlogId, newBlogCont
                     <div className="setoptions item">
                         <label htmlFor="">Options:</label>
                         <div className="optionsbuttons">
-                            <button type="button" className={`${blogPublic ? 'publicblog' : ''}`} 
-                            onClick={handlePublicButton}>blog public: {String(blogPublic)}</button>
-                            <button type="button" className={`${disableComments ? 'disablecomments' : ''}`} 
-                            onClick={handleCommentButton}>disable comments: {String(disableComments)}</button>
+                            <button type="button" className={`${newBlogPublic ? 'publicblog' : ''}`}
+                                onClick={handlePublicButton}>blog public: {String(newBlogPublic)}</button>
+                            <button type="button" className={`${newDisableComments ? 'disablecomments' : ''}`}
+                                onClick={handleCommentButton}>disable comments: {String(newDisableComments)}</button>
                         </div>
                     </div>
                     <div className="setcontent item">

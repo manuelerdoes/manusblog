@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import "./details.css"
 import { useEffect } from 'react';
 import { useBlogStore } from '../../lib/blogStore';
@@ -7,17 +7,28 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import { useBlogListStore } from '../../lib/blogListStore';
 import UploadPictures from './uploadpictures/UploadPictures';
+import { StoreContext } from '../../lib/store';
 
-const Details = ({ createMode, setCreateMode, setNewBlogTitle,
-  setNewBlogTags, setNewBlogContent, setEditMode, setCurrentBlogId }) => {
+const Details = () => {
 
+  const context = useContext(StoreContext);
   const { currentBlog } = useBlogStore();
   const { currentUser } = useUserStore();
   const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
   const [showEditButton, setShowEditButton] = useState(false);
   const [showUploadPics, setShowUploadPics] = useState(false);
   const [pictureList, setPictureList] = useState([]);
-  
+  const setNewBlogTitle = context.setNewBlogTitle;
+  const createMode = context.createMode;
+  const setCreateMode = context.setCreateMode;
+  const setNewBlogTags = context.setNewBlogTags;
+  const setNewBlogContent = context.setNewBlogContent;
+  const setEditMode = context.setEditMode;
+  const setCurrentBlogId = context.setCurrentBlogId;
+  const setNewDisableComments = context.setNewDisableComments;
+  const setNewBlogPublic = context.setNewBlogPublic;
+
+
 
 
   useEffect(() => {
@@ -37,6 +48,8 @@ const Details = ({ createMode, setCreateMode, setNewBlogTitle,
     setNewBlogTitle(currentBlog?.title);
     setNewBlogTags(currentBlog?.tags);
     setNewBlogContent(currentBlog?.content);
+    setNewBlogPublic(currentBlog?.isPublic);
+    setNewDisableComments(currentBlog?.disableComments);
     setEditMode(true);
   }
 

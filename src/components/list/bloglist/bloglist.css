@@ -9,20 +9,19 @@
         padding: 20px;
 
         .searchbar {
-            flex: 1;
-            background-color: rgba(17, 25, 40 , 0.5);
+            background-color: rgba(17, 25, 40, 0.5);
             display: flex;
             align-items: center;
             border-radius: 10px;
             padding: 7px;
             overflow: auto;
+            width: 100%;
 
             input {
                 background-color: transparent;
                 border: none;
                 outline: none;
                 color: white;
-                flex: 1;
                 padding-left: 5px;
             }
 
@@ -54,48 +53,73 @@
     .travel {
         background-color: rgba(0, 128, 0, 0.323);
         border-color: rgba(1, 98, 1, 0.641);
-        &:hover { background-color: rgba(0, 101, 0, 0.852); }
+
+        &:hover {
+            background-color: rgba(0, 101, 0, 0.852);
+        }
     }
 
     .other {
-        background-color:rgba(210, 105, 30, 0.363);
+        background-color: rgba(210, 105, 30, 0.363);
         border-color: rgba(151, 71, 14, 0.775);
-        &:hover { background-color:rgba(174, 79, 11, 0.866); }
+
+        &:hover {
+            background-color: rgba(174, 79, 11, 0.866);
+        }
     }
 
     .photography {
         background-color: rgba(107, 107, 107, 0.662);
         border-color: rgba(137, 135, 135, 0.662);
-        &:hover { background-color: rgba(28, 28, 28, 0.756); }
+
+        &:hover {
+            background-color: rgba(28, 28, 28, 0.756);
+        }
     }
 
     .music {
         background-color: rgba(60, 60, 215, 0.389);
-        border-color: rgba(26, 26, 173, 0.745);;
-        &:hover { background-color: rgba(31, 31, 210, 0.854); }
+        border-color: rgba(26, 26, 173, 0.745);
+        ;
+
+        &:hover {
+            background-color: rgba(31, 31, 210, 0.854);
+        }
     }
 
     .computer {
         background-color: rgba(0, 255, 255, 0.222);
-        border-color: rgba(26, 169, 169, 0.666);;
-        &:hover { background-color: rgba(1, 200, 200, 0.792); }
+        border-color: rgba(26, 169, 169, 0.666);
+        ;
+
+        &:hover {
+            background-color: rgba(1, 200, 200, 0.792);
+        }
     }
 
     .food {
         background-color: rgba(255, 0, 0, 0.184);
-        border-color: rgba(151, 5, 5, 0.471);;
-        &:hover { background-color: rgba(189, 1, 1, 0.561); }
+        border-color: rgba(151, 5, 5, 0.471);
+        ;
+
+        &:hover {
+            background-color: rgba(189, 1, 1, 0.561);
+        }
     }
 
     .robotics {
         background-color: rgba(192, 192, 192, 0.43);
-        border-color:  rgb(99, 94, 94);;
-        &:hover { background-color: rgb(93, 92, 92); }
+        border-color: rgb(99, 94, 94);
+        ;
+
+        &:hover {
+            background-color: rgb(93, 92, 92);
+        }
     }
 
     .notpublic {
         border: 1px dashed rgba(255, 73, 12, 0.674);
-        box-sizing:border-box;
+        box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
     }
@@ -111,7 +135,7 @@
         h3 {
             font-size: x-small;
         }
-        
+
         span {
             font-size: small;
         }
@@ -123,43 +147,65 @@
             margin: 1px;
 
         }
+
         .selected {
             border: 3px solid rgba(29, 29, 29, 0.748);
         }
 
         .phototopic {
             background-color: rgba(107, 107, 107, 0.662);
-            &:hover { background-color: rgba(28, 28, 28, 0.756); }
+
+            &:hover {
+                background-color: rgba(28, 28, 28, 0.756);
+            }
         }
 
         .musictopic {
             background-color: rgba(60, 60, 215, 0.745);
-            &:hover { background-color: rgba(31, 31, 210, 0.854); }
+
+            &:hover {
+                background-color: rgba(31, 31, 210, 0.854);
+            }
         }
 
         .computertopic {
             background-color: rgba(0, 255, 255, 0.544);
-            &:hover { background-color: rgba(1, 200, 200, 0.792); }
+
+            &:hover {
+                background-color: rgba(1, 200, 200, 0.792);
+            }
         }
 
         .foodtopic {
             background-color: rgba(255, 0, 0, 0.401);
-            &:hover { background-color: rgba(189, 1, 1, 0.561); }
+
+            &:hover {
+                background-color: rgba(189, 1, 1, 0.561);
+            }
         }
 
         .roboticstopic {
             background-color: silver;
-            &:hover { background-color: rgb(93, 92, 92); }
+
+            &:hover {
+                background-color: rgb(93, 92, 92);
+            }
         }
 
         .traveltopic {
             background-color: rgba(0, 128, 0, 0.584);
-            &:hover { background-color: rgba(0, 101, 0, 0.852); }
+
+            &:hover {
+                background-color: rgba(0, 101, 0, 0.852);
+            }
         }
 
         .othertopic {
-            background-color:rgba(210, 105, 30, 0.775);
-            &:hover { background-color:rgba(174, 79, 11, 0.866); }
+            background-color: rgba(210, 105, 30, 0.775);
+
+            &:hover {
+                background-color: rgba(174, 79, 11, 0.866);
+            }
         }
     }
 }

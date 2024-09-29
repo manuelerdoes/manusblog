@@ -27,6 +27,8 @@ const Details = () => {
   const setCurrentBlogId = context.setCurrentBlogId;
   const setNewDisableComments = context.setNewDisableComments;
   const setNewBlogPublic = context.setNewBlogPublic;
+  const allowed = context.allowed;
+  const setAllowed = context.setAllowed;
 
 
 
@@ -78,6 +80,7 @@ const Details = () => {
           <p>no data</p>
         </div>
       ) : (
+        allowed ? (
         <div className='details'>
           {showEditButton && (
             <div className="manageButtons">
@@ -108,6 +111,11 @@ const Details = () => {
             <p>{currentBlog.modified}</p>
           </div>
         </div>
+        ) : (
+          <div className="details">
+            <p>Access Denied</p>
+          </div>
+        )
       )
     ) : (
       <div className="details">

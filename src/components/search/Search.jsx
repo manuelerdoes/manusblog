@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './search.css';
 import { useBlogListStore } from '../../lib/blogListStore';
 import { debounce } from 'lodash';
+import { auth } from '../../lib/firebase';
 
 function Search({ setCurrentBlogId, setShowSearch }) {
     const [searchText, setSearchText] = useState("");
@@ -10,6 +11,7 @@ function Search({ setCurrentBlogId, setShowSearch }) {
     const [sortOrder, setSortOrder] = useState('desc'); // Default sort order to 'asc' (or 'desc' based on your preference)
 
     const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
+    const user = auth.currentUser;
 
     const handleBlogClick = (id) => {
         setCurrentBlogId(id);
@@ -35,10 +37,11 @@ function Search({ setCurrentBlogId, setShowSearch }) {
         setFilteredBlogs(sortedBlogs);
     };
 
-    // Default sorting by the "created" field
     useEffect(() => {
         const debouncedSearch = debounce((searchText) => {
             let filtered = currentBlogList;
+
+            filtered = filtered.filter((blog) => blog.isPublic || (user && blog.userid === user.uid));
             
             if (searchText.trim() !== "") {
                 filtered = currentBlogList.filter((blog) =>

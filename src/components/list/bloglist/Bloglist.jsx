@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './bloglist.css';
 import { useBlogListStore } from '../../../lib/blogListStore';
+import { auth } from '../../../lib/firebase';
 
 function Bloglist({ onBlogClick }) {
     const searchInputRef = useRef(null);
@@ -12,10 +13,13 @@ function Bloglist({ onBlogClick }) {
     const [filteredBlogs, setFilteredBlogs] = useState([]);
 
     const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
+    const user = auth.currentUser;
 
     // Filter blogs based on search value and selected topic
     useEffect(() => {
         let result = [...currentBlogList];
+
+        result = result.filter((blog) => blog.isPublic || (user && blog.userid === user.uid));
 
         // Filter by search value if present
         if (searchValue.trim()) {

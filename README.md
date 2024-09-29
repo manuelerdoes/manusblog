@@ -17,7 +17,7 @@ npm run dev
 - blog per url öffnen ✅
 - Disable Comments ✅
 - blog-ids with blogtitle ✅
-- dont show non-public blogs to users that didnt create it 
+- dont show non-public blogs to users that didnt create it ✅
 - ABO/Erinnerung per Mail. Button bei Details
 - visual hint if blog is public or not
 

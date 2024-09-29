@@ -18,6 +18,7 @@ const StoreProvider = ({ children }) => {
   const [newBlogPublic, setNewBlogPublic] = useState(false);
   const [newDisableComments, setNewDisableComments] = useState(false);
   const [serverImages, setServerImages] = useState([]);
+  const [allowed, setAllowed] = useState(false);
 
 
   return (
@@ -49,7 +50,9 @@ const StoreProvider = ({ children }) => {
       newDisableComments,
       setNewDisableComments,
       serverImages,
-      setServerImages
+      setServerImages,
+      allowed,
+      setAllowed
     }}>
       {children}
     </StoreContext.Provider>

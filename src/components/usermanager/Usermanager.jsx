@@ -99,6 +99,11 @@ function Usermanager() {
         setPasswordStatus("Change Password")
     }
 
+    const handleLogout = () => {
+        auth.signOut();
+        fetchUserInfo(null);
+    }
+
 
     return (
         <div className='usermanager'>
@@ -133,7 +138,7 @@ function Usermanager() {
                         {loading ? "loading..." : passwordStatus}</button>
                 </div>
                 <div className="logout">
-                    <button onClick={() => auth.signOut()}>Logout</button>
+                    <button onClick={handleLogout}>Logout</button>
                 </div>
             </div>
         </div>

@@ -145,7 +145,7 @@ const App = () => {
                 }}
             >
                 {isLoadingBlogList ? (
-                    <div>Loading...</div> // Display loading message while fetching blogs
+                    <div className="loadingblogs">Loading...</div> // Display loading message while fetching blogs
                 ) : showAbout ? (
                     <About />
                 ) : showUserstuff ? (

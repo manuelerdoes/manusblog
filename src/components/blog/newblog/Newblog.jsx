@@ -42,7 +42,7 @@ function Newblog() {
         } else if (createMode && editMode && currentUser) {
             setTemporaryBlogId(currentBlog?.id); // to make uploadpictures work
         }
-    }, [createMode, editMode]);
+    }, [createMode, editMode, currentUser, currentBlog]);
 
     const handleCancelButton = async () => {
         setCreateMode(false);

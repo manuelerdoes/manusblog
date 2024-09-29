@@ -99,4 +99,8 @@
             right: 5px;
         }
     }
+
+    code {
+        background-color: red;
+    }
 }

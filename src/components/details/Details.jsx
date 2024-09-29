@@ -3,11 +3,12 @@ import "./details.css"
 import { useEffect } from 'react';
 import { useBlogStore } from '../../lib/blogStore';
 import { useUserStore } from '../../lib/userStore';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import { useBlogListStore } from '../../lib/blogListStore';
 import UploadPictures from './uploadpictures/UploadPictures';
 import { StoreContext } from '../../lib/store';
+
 
 const Details = () => {
 
@@ -28,8 +29,7 @@ const Details = () => {
   const setNewDisableComments = context.setNewDisableComments;
   const setNewBlogPublic = context.setNewBlogPublic;
   const allowed = context.allowed;
-  const setAllowed = context.setAllowed;
-
+  const [author, setAuthor] = useState(null);
 
 
 
@@ -44,6 +44,23 @@ const Details = () => {
     }
   }, [currentUser, currentBlog]);
 
+  useEffect(() => {
+    if (currentBlog && currentBlog.userid) {
+      const fetchAuthorData = async () => {
+        try {
+          const authorRef = doc(db, 'users', currentBlog.userid);
+          const authorDoc = await getDoc(authorRef);
+          if (authorDoc.exists()) {
+            setAuthor(authorDoc.data());
+          }
+        } catch (error) {
+          console.error("Error fetching author data: ", error);
+        }
+      };
+
+      fetchAuthorData();
+    }
+  }, [currentBlog]);
 
   const handleClickEditButton = () => {
     setCreateMode(true);
@@ -81,36 +98,45 @@ const Details = () => {
         </div>
       ) : (
         allowed ? (
-        <div className='details'>
-          {showEditButton && (
-            <div className="manageButtons">
-              <div className="editButton">
-                <button onClick={handleClickEditButton}>Edit Blog</button>
+          <div className='details'>
+            {showEditButton && (
+              <div className="manageButtons">
+                <div className="editButton">
+                  <button onClick={handleClickEditButton}>Edit Blog</button>
+                </div>
+                <div className="deleteButton">
+                  <button onClick={handleClickDeleteButton}>Delete Blog</button>
+                </div>
               </div>
-              <div className="deleteButton">
-                <button onClick={handleClickDeleteButton}>Delete Blog</button>
+            )}
+            <div className="author item">
+              <h3>created by</h3>
+              <div className="authorinfo">
+                <div className="authorimage">
+                  <img src={author ? author.avatar || "./avatar.png" : "./avatar.png"} alt="" />
+                </div>
+                <div className="username">
+                  {currentBlog.username}
+                </div>
               </div>
             </div>
-          )}
-          <div className="author item">
-            <h3>created by</h3>
-            <p>👤{currentBlog.username}</p>
+            <div className="topic item">
+              <h3>topic</h3>
+              <div className="topico">
+                <p className={currentBlog.topic}>{currentBlog.topic}</p>
+              </div>
+            </div>
+            <div className="tags item">
+              <h3>tags</h3>
+              <p>{currentBlog.tags}</p>
+            </div>
+            <div className="timestamps item">
+              <h3>created on</h3>
+              <p>{currentBlog.created}</p>
+              <h3>last modified</h3>
+              <p>{currentBlog.modified}</p>
+            </div>
           </div>
-          <div className="{topic} item">
-            <h3>topic</h3>
-            <p className={currentBlog.topic}>{currentBlog.topic}</p>
-          </div>
-          <div className="tags item">
-            <h3>tags</h3>
-            <p>{currentBlog.tags}</p>
-          </div>
-          <div className="timestamps item">
-            <h3>created on</h3>
-            <p>{currentBlog.created}</p>
-            <h3>last modified</h3>
-            <p>{currentBlog.modified}</p>
-          </div>
-        </div>
         ) : (
           <div className="details">
             <p>Access Denied</p>

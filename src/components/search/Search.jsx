@@ -113,7 +113,7 @@ function Search({ setCurrentBlogId, setShowSearch }) {
                         {filteredBlogs.map((blogentry) => (
                             <tr
                                 key={blogentry.id}
-                                className={`item ${blogentry.topic}`}
+                                className={`item ${blogentry.topic} ${!blogentry.isPublic ? 'notpublic' : ''}`}
                                 onClick={() => handleBlogClick(blogentry.id)}
                             >
                                 <td>{blogentry.title}</td>

@@ -18,8 +18,8 @@ npm run dev
 - Disable Comments ✅
 - blog-ids with blogtitle ✅
 - dont show non-public blogs to users that didnt create it ✅
+- visual hint if blog is public or not ✅
 - ABO/Erinnerung per Mail. Button bei Details
-- visual hint if blog is public or not
 
 ## Security
 

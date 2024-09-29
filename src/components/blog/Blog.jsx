@@ -46,6 +46,7 @@ const Blog = () => {
         <div className='blog'>
           <div className="blogtitle">
             <h2>{currentBlog.title}</h2>
+            {!currentBlog?.isPublic && (<span>not public</span>)}
           </div>
           <div className="blogcontent">
             <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />

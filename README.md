@@ -4,6 +4,10 @@ Simple Blog for myself. It changes colours and backgrounds according to the topi
 
 npm run dev
 
+npm run build
+
+update version in lib/store.jsx
+
 
 ## todo / Features
 

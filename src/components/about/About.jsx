@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./about.css"
+import { StoreContext } from '../../lib/store'
 
 function About() {
+    const context = useContext(StoreContext);
+    const appVersion = context.appVersion;
     return (
         <div className='about'>
             <div className="title">
@@ -15,6 +18,9 @@ function About() {
                     autem hic ducimus iure obcaecati necessitatibus laborum,
                     praesentium, ullam nobis natus iste. Sit!
                 </p>
+            </div>
+            <div className="version">
+                <p>App Version: {appVersion}</p>
             </div>
         </div>
     )

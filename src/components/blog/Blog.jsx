@@ -11,7 +11,7 @@ import { auth } from '../../lib/firebase';
 
 const Blog = () => {
   const { currentBlog, fetchBlogInfo } = useBlogStore();
-  const { blogId } = useParams(); // Get blogId from URL
+
   const navigate = useNavigate();
   const context = useContext(StoreContext);
   const createMode = context.createMode;
@@ -19,6 +19,7 @@ const Blog = () => {
   const allowed = context.allowed;
   const setAllowed = context.setAllowed;
   const currentBlogId = context.currentBlogId;
+  const { blogId } = useParams(); // Get blogId from URL
 
   // Fetch blog info whenever the blogId from the URL changes
   useEffect(() => {
@@ -26,7 +27,7 @@ const Blog = () => {
       if (currentBlog.isPublic || (auth.currentUser && currentBlog.userid === auth.currentUser.uid)) {
         setAllowed(true);
       } else {
-        setAllowed(false);  
+        setAllowed(false);
       }
       setCurrentBlogId(blogId); // Set the current blog ID to the one from the URL
       fetchBlogInfo(blogId); // Fetch blog details
@@ -43,16 +44,16 @@ const Blog = () => {
         </div>
       ) : (
         allowed ? (
-        <div className='blog'>
-          <div className="blogtitle">
-            <h2>{currentBlog.title}</h2>
-            {!currentBlog?.isPublic && (<span>not public</span>)}
+          <div className='blog'>
+            <div className="blogtitle">
+              <h2>{currentBlog.title}</h2>
+              {!currentBlog?.isPublic && (<span>not public</span>)}
+            </div>
+            <div className="blogcontent">
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />
+            </div>
+            <Comments />
           </div>
-          <div className="blogcontent">
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(currentBlog.content)) }} />
-          </div>
-          <Comments />
-        </div>
         ) : (
           <div className="blog">
             <div className="blogtitle">

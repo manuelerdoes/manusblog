@@ -15,7 +15,7 @@ import { useUserStore } from "./lib/userStore";
 import { useBlogStore } from "./lib/blogStore";
 import { useBlogListStore } from "./lib/blogListStore";
 import Search from "./components/search/Search";
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { StoreContext, StoreProvider } from "./lib/store";
 
 const App = () => {
@@ -40,6 +40,8 @@ const App = () => {
     const topic = context.topic;
     const setTopic = context.setTopic;
     const styleScheme = getStyleScheme(topic);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const { currentUser, fetchUserInfo } = useUserStore();
     const { currentBlog, fetchBlogInfo } = useBlogStore();
@@ -86,12 +88,16 @@ const App = () => {
         }
     }, [editMode]);
 
-    // Set the current blog to the newest one when blog list is loaded
-    useEffect(() => {
-        if (!isLoadingBlogList && currentBlogList.length > 0) {
-            setCurrentBlogId(currentBlogList[0]?.id); // Newest blog is the first in the list
+// Set the current blog to the newest public one when blog list is loaded
+useEffect(() => {
+    if (!isLoadingBlogList && currentBlogList.length > 0 && location.pathname === "/") {
+        const firstPublicBlog = currentBlogList.find(blog => blog.isPublic);
+        if (firstPublicBlog) {
+            setCurrentBlogId(firstPublicBlog.id); // First public blog
+            navigate(`/${firstPublicBlog.id}`);
         }
-    }, [isLoadingBlogList, currentBlogList]);
+    }
+}, [isLoadingBlogList, currentBlogList, location.pathname, navigate]);
 
     // Update body styles based on the topic's style scheme
     useEffect(() => {
@@ -105,6 +111,8 @@ const App = () => {
             document.body.style.backgroundImage = null;
         };
     }, [styleScheme]);
+
+
 
     const handleNewBlogButton = () => {
         setCreateMode(!createMode);
@@ -158,9 +166,9 @@ const App = () => {
                     <>
                         <List setCurrentBlogId={setCurrentBlogId} />
                         <Routes>
-                            <Route path="/:blogId" element={
-                                <Blog />
-                            } />
+                            <Route exact path="/" element={<Blog />} />
+                            <Route path="/:blogId" element={<Blog />} />
+                            <Route path="*" element={<div>404 Not Found</div>} />
                         </Routes>
                         <Details />
                     </>

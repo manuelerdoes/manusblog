@@ -27,12 +27,14 @@ Potential Problems:
 * many requests on Login and registering -> Firebase setting: max 100 new users per hour
 * many new blogs
 * big pictures 
-* many pictures   
+* many pictures
+
+-> hosting not with firebase, so I can keep the free plan.  
 
 ## Bugs
 
 * New Blog after cancel makes two new blogs. ✅
 * Comments: each child of list should have unique key prop, error message. ✅
+* searchfield does not shrink with website ✅
 * sometimes when the website is loading new, loading... appears instead of a blog
-* searchfield does not shrink with website
 

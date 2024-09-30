@@ -17,6 +17,7 @@ function Login({ setShowUserstuff }) {
   const [username, setUsername] = useState(''); // Track username input
   const [usernameAvailable, setUsernameAvailable] = useState(null); // Check if username is available
   const [checkingUsername, setCheckingUsername] = useState(false); // Show loading while checking
+  const [createAccountAvailable, setCreateAccountAvailable] = useState(false);
 
   const handleAvatar = (e) => {
     if (e.target.files[0]) {
@@ -169,46 +170,48 @@ function Login({ setShowUserstuff }) {
         </div>
       )}
       <div className='separator'></div>
-      <div className='item'>
-        <h2>Create an account</h2>
-        <form onSubmit={handleRegister}>
-          <label htmlFor='file'>
-            <img src={avatar.url || './avatar.png'} alt='' />
-            Upload avatar pic
-          </label>
-          <input type='file' id='file' style={{ display: 'none' }} onChange={handleAvatar} />
-          <input
-            type='text'
-            placeholder='Username'
-            name='username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} // Update username state
-          />
-          {checkingUsername ? (
-            <span>Checking username...</span>
-          ) : usernameAvailable === false ? (
-            <span className='error'>Username is taken</span>
-          ) : usernameAvailable === true ? (
-            <span className='success'>Username is available</span>
-          ) : null}
-          <input type='text' placeholder='Email' name='email' />
-          <input type='password' placeholder='Password' name='password' />
-          <button disabled={loading || usernameAvailable === false}>
-            {loading ? 'loading' : 'Register'}
-          </button>
-          {registerSuccess && (
-            <div className='registersuccess'>
-              <h3>Registered successfully!</h3>
-            </div>
-          )}
-          {registerError && (
-            <div className='errormessage'>
-              <h3>Could not create user!</h3>
-              <span>{registerErrorMessage}</span>
-            </div>
-          )}
-        </form>
-      </div>
+      {createAccountAvailable && (
+        <div className='item'>
+          <h2>Create an account</h2>
+          <form onSubmit={handleRegister}>
+            <label htmlFor='file'>
+              <img src={avatar.url || './avatar.png'} alt='' />
+              Upload avatar pic
+            </label>
+            <input type='file' id='file' style={{ display: 'none' }} onChange={handleAvatar} />
+            <input
+              type='text'
+              placeholder='Username'
+              name='username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)} // Update username state
+            />
+            {checkingUsername ? (
+              <span>Checking username...</span>
+            ) : usernameAvailable === false ? (
+              <span className='error'>Username is taken</span>
+            ) : usernameAvailable === true ? (
+              <span className='success'>Username is available</span>
+            ) : null}
+            <input type='text' placeholder='Email' name='email' />
+            <input type='password' placeholder='Password' name='password' />
+            <button disabled={loading || usernameAvailable === false}>
+              {loading ? 'loading' : 'Register'}
+            </button>
+            {registerSuccess && (
+              <div className='registersuccess'>
+                <h3>Registered successfully!</h3>
+              </div>
+            )}
+            {registerError && (
+              <div className='errormessage'>
+                <h3>Could not create user!</h3>
+                <span>{registerErrorMessage}</span>
+              </div>
+            )}
+          </form>
+        </div>
+      )}
     </div>
   );
 }

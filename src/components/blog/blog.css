@@ -76,6 +76,14 @@
     img {
         width: 100%;
     }
+
+    a {
+        background-color: rgba(251, 150, 67, 0.848);
+        color: rgb(0, 0, 0);
+        padding: 1px 3px;
+        border-radius: 2px;
+
+    }
         
     table {
         width: 80%;

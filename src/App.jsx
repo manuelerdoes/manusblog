@@ -177,7 +177,7 @@ const App = () => {
                     <>
                         <List />
                         <Routes>
-                            <Route exact path="/" element={<Blog />} />
+                            <Route path="/" element={<Blog />} />
                             <Route path="/:blogId" element={<Blog />} />
                             <Route path="*" element={<div>404 Not Found</div>} />
                         </Routes>

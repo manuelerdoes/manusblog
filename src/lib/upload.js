@@ -7,6 +7,7 @@ const upload = async (file) => {
 
   const uploadTask = uploadBytesResumable(storageRef, file);
 
+
   return new Promise((resolve, reject) => {
     uploadTask.on(
       "state_changed",

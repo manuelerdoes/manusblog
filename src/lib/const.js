@@ -1,0 +1,1 @@
+export const homepage = "https://blog.rothausbar.ch/";

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './login.css';
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../lib/firebase';
 import { doc, setDoc, query, collection, where, getDocs } from 'firebase/firestore';
 import upload from '../../lib/upload';
+import { StoreContext } from '../../lib/store';
 
-function Login({ setShowUserstuff }) {
+function Login() {
   const [avatar, setAvatar] = useState({ file: null, url: '' });
   const [loading, setLoading] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
@@ -18,6 +19,8 @@ function Login({ setShowUserstuff }) {
   const [usernameAvailable, setUsernameAvailable] = useState(null); // Check if username is available
   const [checkingUsername, setCheckingUsername] = useState(false); // Show loading while checking
   const [createAccountAvailable, setCreateAccountAvailable] = useState(false);
+  const context = useContext(StoreContext);
+  const setShowUserstuff = context.setShowUserstuff;
 
   const handleAvatar = (e) => {
     if (e.target.files[0]) {

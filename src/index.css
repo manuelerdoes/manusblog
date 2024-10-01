@@ -3,13 +3,13 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif; 
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 body {
   background-image: url('./night_sky.jpeg');
   background-size: contain;
-  background-repeat:repeat;
+  background-repeat: repeat;
   display: flex;
   /* align-items: center; */
   justify-content: center;
@@ -23,7 +23,7 @@ body {
   /* height: 80vh; */
   background-color: rgba(250, 234, 214, 0.85);
   border-radius: 4px;
-  border: 1px solid rgba(0,0,0,0.35);
+  border: 1px solid rgba(0, 0, 0, 0.35);
   display: flex;
 
   .loadingblogs {
@@ -39,7 +39,7 @@ body {
 .header {
   width: 90vw;
   height: 10vh;
-  background-color:rgba(8, 51, 82, 0.85);
+  background-color: rgba(8, 51, 82, 0.85);
   border-radius: 4px;
   margin-bottom: 10px;
   border: 1px solid rgba(201, 200, 200, 0.65);
@@ -62,9 +62,143 @@ body {
     &:hover {
       background-color: rgba(170, 156, 36, 0.213);
     }
+
     &:active {
       background-color: rgba(104, 95, 15, 0.405);
       box-shadow: 1px 2px rgba(37, 37, 28, 0.572);
     }
   }
 }
+
+.mobileheader {
+  display: none;
+  width: 95vw;
+  height: 10vh;
+  background-color: rgba(8, 51, 82, 0.85);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(201, 200, 200, 0.65);
+  color: rgb(212, 207, 187);
+  padding: 20px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+
+  .header {
+    display: none;
+  }
+
+  .mobileheader {
+    display: flex;
+  }
+
+  .list {
+    display: none;
+  }
+
+  .container {
+    flex-direction: column;
+    width: 95vw;
+  }
+
+  .details {
+    border-top: 2px solid black;
+    ;
+  }
+
+  .blog {
+    padding: 10px 20px;
+  }
+
+  .blogcontent {
+    /* border: 1px solid rgba(131, 131, 131, 0.226);
+    border-radius: 5px; */
+    padding: 0px 0px;
+  }
+
+  .blogtitle {
+    padding: 0px 0px;
+  }
+
+  .search {
+    .searchinput {
+      width: 100%;
+    }
+
+    .resulttags {
+      display: none;
+    }
+
+    .resultdate {
+      display: none;
+    }
+  }
+
+  .userinfo {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .usermanager {
+    flex-direction: column;
+    width: 95vw;
+    padding: 10px;
+
+    .info {
+
+      .changeavatar {
+        padding: 10px;
+        padding-left: 0px;
+        padding-right: 0px;
+
+      }
+    }
+
+    .useraction {
+      padding: 0;
+
+      .changepassword {
+        flex-direction: column;
+        padding: 0;
+
+        input {
+          padding: 10px;
+        }
+      }
+
+      .changeusername {
+        padding: 0;
+        flex-direction: column;
+
+        input {
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  .login {
+    padding: 35px;
+    .item {
+      form {
+        width: 100%;
+        input {
+          padding: 20px;
+        }
+        button {
+          padding: 20px;
+        }
+      }
+    }
+  }
+
+  .about {
+    padding: 10px;
+    .version {
+      padding: 10px;
+    }
+  }
+}
+
+@media (max-width: 480px) {}

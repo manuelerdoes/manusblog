@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './search.css';
 import { useBlogListStore } from '../../lib/blogListStore';
 import { debounce } from 'lodash';
 import { auth } from '../../lib/firebase';
+import { StoreContext } from '../../lib/store';
 
-function Search({ setCurrentBlogId, setShowSearch }) {
+function Search() {
     const [searchText, setSearchText] = useState("");
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [sortField, setSortField] = useState('created'); // Set 'created' as the default sort field
     const [sortOrder, setSortOrder] = useState('desc'); // Default sort order to 'asc' (or 'desc' based on your preference)
+    const context = useContext(StoreContext);
+    const setShowSearch = context.setShowSearch;
+    const setCurrentBlogId = context.setCurrentBlogId;
 
     const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
     const user = auth.currentUser;
@@ -92,7 +96,7 @@ function Search({ setCurrentBlogId, setShowSearch }) {
                 <table>
                     <thead>
                         <tr>
-                            <th onClick={() => handleSort('title')}>
+                            <th onClick={() => handleSort('title')} className='resulttitle'>
                                 Title {renderSortIndicator('title')}
                             </th>
                             <th onClick={() => handleSort('topic')}>
@@ -101,10 +105,10 @@ function Search({ setCurrentBlogId, setShowSearch }) {
                             <th onClick={() => handleSort('username')}>
                                 Author {renderSortIndicator('username')}
                             </th>
-                            <th onClick={() => handleSort('tags')}>
+                            <th onClick={() => handleSort('tags')} className='resulttags'>
                                 Tags {renderSortIndicator('tags')}
                             </th>
-                            <th onClick={() => handleSort('created')}>
+                            <th onClick={() => handleSort('created')} className='resultdate'>
                                 Date of creation {renderSortIndicator('created')}
                             </th>
                         </tr>
@@ -119,8 +123,8 @@ function Search({ setCurrentBlogId, setShowSearch }) {
                                 <td>{blogentry.title}</td>
                                 <td>{blogentry.topic}</td>
                                 <td>👤{blogentry.username}</td>
-                                <td>{blogentry.tags}</td>
-                                <td>{blogentry.created}</td>
+                                <td className='resulttags'>{blogentry.tags}</td>
+                                <td className='resultdate'>{blogentry.created}</td>
                             </tr>
                         ))}
                     </tbody>

@@ -4,6 +4,7 @@ import Details from "./components/details/Details";
 import Userinfo from "./components/userinfo/Userinfo";
 import Title from "./components/title/Title";
 import Menu from "./components/menu/Menu";
+import Mobilemenu from "./components/mobilemenu/Mobilemenu";
 import { useState, useEffect, useContext } from "react";
 import { getStyleScheme } from "./styles";
 import Login from "./components/login/Login";
@@ -88,16 +89,16 @@ const App = () => {
         }
     }, [editMode]);
 
-// Set the current blog to the newest public one when blog list is loaded
-useEffect(() => {
-    if (!isLoadingBlogList && currentBlogList.length > 0 && location.pathname === "/") {
-        const firstPublicBlog = currentBlogList.find(blog => blog.isPublic);
-        if (firstPublicBlog) {
-            setCurrentBlogId(firstPublicBlog.id); // First public blog
-            navigate(`/${firstPublicBlog.id}`);
+    // Set the current blog to the newest public one when blog list is loaded
+    useEffect(() => {
+        if (!isLoadingBlogList && currentBlogList.length > 0 && location.pathname === "/") {
+            const firstPublicBlog = currentBlogList.find(blog => blog.isPublic);
+            if (firstPublicBlog) {
+                setCurrentBlogId(firstPublicBlog.id); // First public blog
+                navigate(`/${firstPublicBlog.id}`);
+            }
         }
-    }
-}, [isLoadingBlogList, currentBlogList, location.pathname, navigate]);
+    }, [isLoadingBlogList, currentBlogList, location.pathname, navigate]);
 
     // Update body styles based on the topic's style scheme
     useEffect(() => {
@@ -129,7 +130,7 @@ useEffect(() => {
                     borderColor: styleScheme.headerBorderColor
                 }}
             >
-                <Menu showAbout={showAbout} setShowAbout={setShowAbout} />
+                <Menu />
                 <button
                     style={{
                         color: styleScheme.headerTextColor,
@@ -142,7 +143,17 @@ useEffect(() => {
                         color: styleScheme.headerTextColor,
                         borderColor: styleScheme.headerBorderColor
                     }} onClick={() => setShowSearch(!showSearch)}>All Blogs</button>
-                <Userinfo showUserstuff={showUserstuff} setShowUserstuff={setShowUserstuff} />
+                <Userinfo />
+            </div>
+
+            <div className='mobileheader'
+                style={{
+                    backgroundColor: styleScheme.headerBGColor,
+                    color: styleScheme.headerTextColor,
+                    borderColor: styleScheme.headerBorderColor
+                }}
+            >
+                <Mobilemenu />
             </div>
 
             <div className='container'
@@ -158,13 +169,13 @@ useEffect(() => {
                     <About />
                 ) : showUserstuff ? (
                     <>
-                        {currentUser ? <Usermanager /> : <Login setShowUserstuff={setShowUserstuff} />}
+                        {currentUser ? <Usermanager /> : <Login />}
                     </>
                 ) : showSearch ? (
-                    <Search showSearch={showSearch} setShowSearch={setShowSearch} setCurrentBlogId={setCurrentBlogId} />
+                    <Search />
                 ) : (
                     <>
-                        <List setCurrentBlogId={setCurrentBlogId} />
+                        <List />
                         <Routes>
                             <Route exact path="/" element={<Blog />} />
                             <Route path="/:blogId" element={<Blog />} />

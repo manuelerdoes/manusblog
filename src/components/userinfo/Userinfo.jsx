@@ -2,10 +2,15 @@ import React from 'react'
 import "./userinfo.css"
 import { useStore } from 'zustand'
 import { useUserStore } from '../../lib/userStore'
+import { useContext } from 'react'
+import { StoreContext } from '../../lib/store'
 
-function Userinfo({showUserstuff, setShowUserstuff}) {
+function Userinfo() {
 
   const { currentUser } = useUserStore();
+  const context = useContext(StoreContext);
+  const setShowUserstuff = context.setShowUserstuff;
+  const showUserstuff = context.showUserstuff;
 
   return (
     <div className='userinfo'>

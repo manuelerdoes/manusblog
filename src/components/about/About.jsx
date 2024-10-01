@@ -1,10 +1,8 @@
 import React, { useContext } from 'react'
 import "./about.css"
-import { StoreContext } from '../../lib/store'
+import { appVersion } from '../../lib/version';
 
 function About() {
-    const context = useContext(StoreContext);
-    const appVersion = context.appVersion;
     return (
         <div className='about'>
             <div className="title">

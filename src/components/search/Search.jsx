@@ -44,7 +44,7 @@ function Search({ setCurrentBlogId, setShowSearch }) {
             filtered = filtered.filter((blog) => blog.isPublic || (user && blog.userid === user.uid));
             
             if (searchText.trim() !== "") {
-                filtered = currentBlogList.filter((blog) =>
+                filtered = filtered.filter((blog) =>
                     blog.title.toLowerCase().includes(searchText.toLowerCase()) ||
                     blog.username.toLowerCase().includes(searchText.toLowerCase()) ||
                     blog.topic.toLowerCase().includes(searchText.toLowerCase()) ||

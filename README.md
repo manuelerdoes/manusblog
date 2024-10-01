@@ -24,6 +24,7 @@ update version in lib/store.jsx
 - dont show non-public blogs to users that didnt create it ✅
 - visual hint if blog is public or not ✅
 - ABO/Erinnerung per Mail. Button bei Details
+- Responsive Design
 
 ## Security
 
@@ -41,4 +42,5 @@ Potential Problems:
 * Comments: each child of list should have unique key prop, error message. ✅
 * searchfield does not shrink with website ✅
 * sometimes when the website is loading new, loading... appears instead of a blog
+* Search only allowed blogs
 

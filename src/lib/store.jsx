@@ -19,7 +19,6 @@ const StoreProvider = ({ children }) => {
   const [newDisableComments, setNewDisableComments] = useState(false);
   const [serverImages, setServerImages] = useState([]);
   const [allowed, setAllowed] = useState(false);
-  const [appVersion, setAppVersion] = useState("1.0.0");
 
 
   return (
@@ -53,8 +52,7 @@ const StoreProvider = ({ children }) => {
       serverImages,
       setServerImages,
       allowed,
-      setAllowed,
-      appVersion
+      setAllowed
     }}>
       {children}
     </StoreContext.Provider>

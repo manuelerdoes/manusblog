@@ -4,6 +4,7 @@ import { useBlogListStore } from '../../lib/blogListStore';
 import { debounce } from 'lodash';
 import { auth } from '../../lib/firebase';
 import { StoreContext } from '../../lib/store';
+import { useNavigate } from 'react-router-dom';
 
 function Search() {
     const [searchText, setSearchText] = useState("");
@@ -13,12 +14,14 @@ function Search() {
     const context = useContext(StoreContext);
     const setShowSearch = context.setShowSearch;
     const setCurrentBlogId = context.setCurrentBlogId;
+    const navigate = useNavigate();
 
     const { currentBlogList, fetchBlogListInfo } = useBlogListStore();
     const user = auth.currentUser;
 
     const handleBlogClick = (id) => {
-        setCurrentBlogId(id);
+        navigate(`/${id}`);
+        // setCurrentBlogId(id);
         setShowSearch(false);
     };
 

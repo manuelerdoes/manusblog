@@ -70,6 +70,7 @@ const App = () => {
     useEffect(() => {
         if (currentBlog) {
             setTopic(currentBlog.topic);
+            document.title = currentBlog.title + " | Manus Blog";
         }
     }, [currentBlog]);
 
